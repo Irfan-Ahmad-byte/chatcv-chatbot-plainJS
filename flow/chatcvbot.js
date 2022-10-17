@@ -12,6 +12,21 @@ let name=false,address=false,email=false,phone=false;  // variables to store sec
 let section2=[], section3=[], section4=[];
 let section5={}, section6=[], section7=[], section8=[], section9=[];
 
+let pt_months = [
+	'Janeiro',
+	'Fevereiro',
+	'Março',
+	'Abril',
+	'Maio',
+	'Junho',
+	'Julho',
+	'Agosto',
+	'Setembro',
+	'Outubro',
+	'Novembro',
+	'Dezembro'
+	]
+
 section5['company'] = {}	// an initializer for section 5
 
 		// some initializers for section 5
@@ -96,7 +111,7 @@ export function removeInput(){
  In all the cases except the above mentioned, the text input section will be inserted in the createInput
  function and the Options section will be inserted inside the optionsContainer functions.  
  */
-export function createInput(type=false, placeholder=false){
+export function createInput(type=false, placeholder=false, name=false){
     /* this method adds input section into the chatbot and handles flow of the bot
     this method along with optionsContainer method makes the flow of the bot
     it uses 2 non-essential parameters:
@@ -116,49 +131,108 @@ export function createInput(type=false, placeholder=false){
 	document.querySelector('.chatbot-chat-container').appendChild(input_container)
 
 	// input
-	const input = document.createElement('input')
-	input.classList.add('form-input')
-	if (placeholder){
-		input.setAttribute("placeholder",placeholder)
-	}
 
-	input.setAttribute("id","chat-input")
-	if (type){
+	let input;
+	if (type && type!='month'){
+		input = document.createElement('input')
 		input.setAttribute("type",type)
+		
+	} else if (type && type=='month') {
+		input = document.createElement('div')
+		input.style.backgroundColor= '#fff'
+
 	} else {
+		input = document.createElement('input')
 		input.setAttribute("type","text")
+		console.log('***********>>>>>>>>>>>>>>>>>>>>>>>>>>')
 	}
+	input.classList.add('form-input')
 	
-	if (type=="month"){
-		input.setAttribute("max","9999-12")
-		input.setAttribute("value","2001-06")
-	} else if (type=="tel") {
-		input.setAttribute("pattern", "[0-9]{2}-[0-9]{5}-[0-9]{4}")
-		input.required = true
-	} else if (type=="email") {
-		input.required = true
-	} else {
-		input.setAttribute("type","text")
-	}
+	input.setAttribute("id","chat-input")
 	
 	input.addEventListener('focus', () => {
 			input_container.style.outline = "1px solid rgb(92, 204, 157)";
 		})
 
-	input_container.appendChild(input)
 	input.autofocus = true
+	
+	if (placeholder){
+		input.setAttribute("placeholder",placeholder)
+	}
+	
+	if (type=="month"){
+		let mnth = document.createElement('select')
+		mnth.setAttribute("name",name)
+		mnth.classList.add('date-months')
+		mnth.style.padding = '5px 10px';
+		mnth.style.marginLeft = '10px';
+		mnth.style.marginRight = '10px';
+		mnth.style.backgroundColor = '#fff';
+		mnth.style.border = 'none';
+		mnth.style.outline = 'none';
+		input.appendChild(mnth)
+		for (let mn of pt_months) {
+			let month = document.createElement('option')
+			month.setAttribute("value",mn)
+			month.textContent = mn
+			mnth.appendChild(month)
+		}
+		
+		let years = document.createElement('select')
+		years.setAttribute("name",name)
+		years.classList.add('month-years')
+		years.style.padding = '5px 10px';
+		years.style.marginLeft = '10px';
+		years.style.backgroundColor = '#fff';
+		years.style.border = 'none';
+		years.style.outline = 'none';
+		
+		input.appendChild(years)
+		let pt_years = [];
+		const d = new Date();
+		let max_year = d.getFullYear();
+		let min_year = max_year - 125;
+		for (var i = max_year; i >= min_year; i--) {
+			pt_years.push(i)
+		}
+		
+		for (let yr of pt_years) {
+			let year = document.createElement('option')
+			year.setAttribute("value",yr)
+			year.textContent = yr
+			years.appendChild(year)
+		}
+		
+	} else if (type=="tel") {
+		input.setAttribute("pattern", "[0-9]{2}-[0-9]{5}-[0-9]{4}")
+		input.required = true
+		
+	} else if (type=="email") {
+		input.required = true
+		
+	}
+	
+	input_container.appendChild(input)
 
 	// input button
 	const input_btn = document.createElement('button')
 	input_btn.classList.add('form-input-btn')
 
 	input_btn.addEventListener('click', () => {
-			const text = input.value;
+			let text = input.value;
+			if (text) {
+				addUserChat(text)
+			} else if (document.querySelector('.date-months')){
+				let occ_months = document.querySelector('.date-months')
+				let occ_years = document.querySelector('.month-years')
+				text = `${occ_months.options[occ_months.selectedIndex].text}, ${occ_years.options[occ_years.selectedIndex].text}`
+				addUserChat(text)
+			};
 			
 			/* SECTION 1: data intake STARTS here */
 
 			if (text) {
-				addUserChat(text);
+				
 				if (Ask.asked== "Pode informar seu Nome Completo?") {
 					name=text
 					localStorage.setItem('name', text);
@@ -221,7 +295,7 @@ export function createInput(type=false, placeholder=false){
 					section5['company'][company_count]['name'] = text
 					// ask the role in the company
 					Ask.asked = "Qual foi a sua ocupação, posição ou função nesta empresa?"
-                    addBotChat(Ask.asked)
+                    			addBotChat(Ask.asked)
 					removeInput()
 					createInput(false, 'escreva sua mensagem aqui')
 					
@@ -244,7 +318,7 @@ export function createInput(type=false, placeholder=false){
 					Ask.asked = 'Quando você começou?'
 					addBotChat(Ask.asked)
 					removeInput()
-					createInput('month')
+					createInput('month',false,'occupation')
 					
 				// if user entered start date
 				} else if (Ask.asked == 'Quando você começou?') {
@@ -254,7 +328,7 @@ export function createInput(type=false, placeholder=false){
 					Ask.asked = 'Quando terminou esta ocupação?'
 					addBotChat(Ask.asked)
 					removeInput()
-					createInput('month')
+					createInput('month',false,'occupation')
 					
 				// if user entered last date of the occupation
 				} else if (Ask.asked == 'Quando terminou esta ocupação?') {
@@ -318,7 +392,7 @@ export function createInput(type=false, placeholder=false){
 					Ask.asked = 'Quando você concluiu este curso?'
 					addBotChat(Ask.asked)
 					removeInput()
-					createInput('month')
+					createInput('month', false, 'course')
 					
 					// if asked for institute name
 				} else if (Ask.asked == 'Quando você concluiu este curso?') {
@@ -386,7 +460,7 @@ export function createInput(type=false, placeholder=false){
 					Ask.asked = 'Quando você conseguiu?'
 					addBotChat(Ask.asked)
 					removeInput()
-					createInput('month')
+					createInput('month', false, 'certificate')
 				
 				// if asked location/city of the institute
 				} else if (Ask.asked == 'Quando você conseguiu?') {
@@ -987,7 +1061,7 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 					// Reiniciar SECTION 6 here
 					Ask.asked = 'Qual foi o ano de conclusão?'
 					addBotChat(Ask.asked)
-					createInput('month', false)
+					createInput('month', false, 'degree')
 
 					// if asked to confirm if the user is graduate
 				} else if (Ask.asked == 'Qual é a situação do seu diploma?') {
@@ -1038,7 +1112,7 @@ addBotChat(Ask.asked, " Obrigatório em todos currículos. Recomenda-se sempre i
 					// start SECTION 6, ask for year of degree completion
 					Ask.asked = 'Qual foi o ano de conclusão?'
 					setTimeout(addBotChat(Ask.asked), 500)
-					createInput('month',false)
+					createInput('month', false, 'degree')
 					
 				// if user was asked to add more responsibility
 				} else if (Ask.asked=='Gostaria de acrescentar mais uma responsabilidade?') {
