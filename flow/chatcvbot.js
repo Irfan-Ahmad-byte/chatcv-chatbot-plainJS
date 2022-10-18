@@ -594,7 +594,7 @@ export function addReviewSection() {
 			if ( option_value==data_info[0] ){
 				Ask.asked="name"
 				review = document.createElement('span')
-				review.textContent = name
+				review.textContent = localStorage.getItem('name');
 				
 			} else if ( option_value==data_info[1] ){
 				Ask.asked="address"
@@ -984,7 +984,7 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 					window.open("https://chatcv.net", "_self");
 
 				} else if (option.textContent=="Reiniciar") {
-					Ask.asked = "Qual seu nome completo?";
+					Ask.asked = "Pode informar seu Nome Completo?";
 					addBotChat(Ask.asked);
 					createInput();
 				} else if (option.textContent=="Fechar janela") {
