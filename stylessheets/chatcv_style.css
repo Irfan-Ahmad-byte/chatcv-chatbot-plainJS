@@ -40,7 +40,7 @@ this css file contains styles for chatcv bot
 
 /* chatbot message container */
 .chatbot-message-container {
-	height: auto;
+	height: 72vh;
 	max-height: 80vh;
 	overflow: auto;
 	padding: 0 25px 10px;  
@@ -57,24 +57,25 @@ this css file contains styles for chatcv bot
 	border-bottom-right-radius: 5px;
 }
 
+
 /* input area */
 .form-input{
-	border: none;
+	border: none !important;
 	padding: 15px;
 	border-bottom-left-radius: 5px;
 	width: 100%;
-	outline: none;
+	outline: none !important;
 }
 
 /* form input button */
 .form-input-btn{
-	background-color : #84A9AF;
-	border : none;
+	background-color : #84A9AF !important;
+	border : none !important;
+	outline: none !important;
 	padding: 15px;   /*do not change*/
 	border-bottom-right-radius: 5px;
 	width: 100%;
 	cursor: pointer;
-	outline: none;
 }
 
 /* chatbot send message icon */
@@ -85,24 +86,26 @@ this css file contains styles for chatcv bot
 }
 
 /* bot button */
-#bot-btn{
-	position: fixed;   /*do not change*/
-	right: 40px;
-	bottom: 15px;
+/*#bot-btn{
 	height: 65px;
-	width: 65px;
+	width: auto;
 	border: none;
-	border-radius: 150px;
+	border-radius: auto;
 	background-color: #1f3646;
-	z-index: 10000000000000000000;   /*do not change*/
-}
+}*/
 
 /* bot button icon */
 .bot-btn-icon{
+	position: fixed;   /*do not change*/
+	z-index: 10000000000000000000;   /*do not change*/
+	right: 40px;
+	bottom: 15px;
 	fill: #fff;
 	color: #fff;
+	background-color: #1f3646;
 	height: 40px;
 	width: 40px;
+	cursor: pointer;
 }
 
 /* user's message container*/
@@ -259,8 +262,8 @@ this css file contains styles for chatcv bot
 .review-inner-container {
 	background-color: #fff;
 	column-gap: 10px;
-	display: grid;
-	grid-template-columns: auto auto;
+/*	display: grid;
+	grid-template-columns: auto auto;*/
 }
 
 .review-container-header{
@@ -309,7 +312,7 @@ this css file contains styles for chatcv bot
 
 
 /* Responsiveness queries*/
-@media only screen and (max-width: 800px) {
+/*@media only screen and (max-width: 800px) {
   .templates-container {
 	grid-template-columns:40%;
 	}
@@ -323,16 +326,16 @@ this css file contains styles for chatcv bot
 
 #chatbot-input-container{
 	height: 50px;
-}
+}*/
 /* input area */
-.form-input{
+/*.form-input{
 	padding: 5px;
 	height: auto;
 	font-size: 1rem;
-}
+}*/
 
 /* form input button */
-.form-input-btn{
+/*.form-input-btn{
 	padding: 5px;
 	height: auto;
 }
@@ -340,8 +343,8 @@ this css file contains styles for chatcv bot
 
 @media only screen and (max-width: 630px) {
 
-}
-
+}*/
+/*
 @media only screen and (max-width: 900px) {
   .review-inner-container {
 	grid-template-columns: auto !important;
@@ -350,4 +353,6 @@ this css file contains styles for chatcv bot
   .options-buttons-container{
   	grid-template-columns: auto !important;
 	}
-}
+}*/
+
+/* IPhone 6 */

@@ -509,10 +509,18 @@ export function createInput(type=false, placeholder=false, name=false){
 // add a bot button in the DOM, below right corner of the window
 	// button element
 export function botButton() {
-	const bot_btn = document.createElement('button')
-	bot_btn.setAttribute("id","bot-btn");
+		// add a svg to button
+			// create svg of button
+	const svg = document.createElement("img");
+	svg.src = "https://chatcv.net/wp-content/themes/twentytwentytwo/assets/images/chatbot.svg";
+	svg.alt = "chatbot icon";
+	svg.classList.add('bot-btn-icon', 'object-cover', 'object-cover', 'rounded-full', 'p-4', 'h-16', 'w-16')
 
-	bot_btn.onclick = ()=> {
+/*	const bot_btn = document.createElement('button')
+	bot_btn.classList.add('review-container')
+	bot_btn.setAttribute("id","bot-btn");
+*/
+	svg.onclick = ()=> {
 		const bot_block = document.getElementById("chat-bot");
 		if (bot_block) {
 			if (bot_block.style.display=="block") {
@@ -523,20 +531,14 @@ export function botButton() {
 		}
 	};
 
-		// add a svg to button
-			// create svg of button
-	const svg = document.createElement("img");
-	svg.src = "https://chatcv.net/wp-content/themes/twentytwentytwo/assets/images/chatbot.svg";
-	svg.alt = "chatbot icon";
-	svg.classList.add('bot-btn-icon')
 
 	// =======================================================================================
 	// insert bot container into body and btn and chat container into container
 
 	//document.body.appendChild(bot_container);
-	document.body.appendChild(bot_btn);	
+	document.body.appendChild(svg);	
 		// insert svg into image
-	bot_btn.appendChild(svg);
+	//bot_btn.appendChild(svg);
 }
 
 // ================================================================================================
@@ -549,7 +551,7 @@ export function addReviewSection() {
 
 	// inner review container
 	const review_container_inner = document.createElement('div')
-	review_container_inner.classList.add('review-inner-container')
+	review_container_inner.classList.add('review-inner-container', 'grid', 'grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-2', 'xl:grid-cols-2', '2xl:grid-cols-2')
 	
 	const review_header = document.createElement('p')
 	review_header.classList.add('review-container-header')
@@ -797,7 +799,7 @@ export function addUserChat(text) {
     	
     	// user chat message
 	const user_chat_message = document.createElement('div')
-	user_chat_message.classList.add('user_chat_message')
+	user_chat_message.classList.add('user_chat_message', 'text-base')
 	user_chat_message.textContent = text;
 	
 	// message side triangle
@@ -848,7 +850,7 @@ export function addBotChat(text, flag=false) {
     	
     	// bot chat message
 	const bot_chat_message = document.createElement('div')
-	bot_chat_message.classList.add('bot_chat_message')
+	bot_chat_message.classList.add('bot_chat_message','text-base')
     
     if (text) {
 		bot_chat_message.textContent = text;
@@ -931,9 +933,9 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 	
 	// options button container
 	const buttons_container = document.createElement('div');
-	buttons_container.classList.add("options-buttons-container");
-	buttons_container.style.display = "grid";
-	buttons_container.style.gridTemplateColumns= cols;
+	buttons_container.classList.add("options-buttons-container", 'grid','gap-2','grid-cols-1',`md:grid-cols-${cols.split(" ").length}`, `lg:grid-cols-${cols.split(" ").length}`, `xl:grid-cols-${cols.split(" ").length}`, `2xl:grid-cols-${cols.split(" ").length}`);
+	/*buttons_container.style.display = "grid";
+	buttons_container.style.gridTemplateColumns= cols;*/
 	
 	
 	options_container.appendChild(buttons_container);
@@ -941,7 +943,7 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 	// add items in the grid
 	for (let i=0; i<length;i++) {
 		const option = document.createElement('div');
-		option.classList.add("options-container-item");
+		option.classList.add("options-container-item", 'text-base', 'rounded-md');
 		option.textContent = optionsArray[i]
 		option.onclick = () => {
 			if (fillData.includes(option.textContent)) {
@@ -1265,7 +1267,7 @@ addBotChat(Ask.asked, " Obrigatório em todos currículos. Recomenda-se sempre i
 export function viewTemplates(){
 	// cv template container
 	const templates_container = document.createElement('div')
-	templates_container.classList.add('templates-container')
+	templates_container.classList.add('templates-container','container', 'columns-3','md:columns-2','sm:columns-1')
     
     let cvs;
     
@@ -1323,7 +1325,7 @@ export function viewTemplates(){
 		localStorage.setItem('email_content', Ask.email_content)
 		
 	}
-	
+	0
 	
 	
 	// add templates to templates' container
