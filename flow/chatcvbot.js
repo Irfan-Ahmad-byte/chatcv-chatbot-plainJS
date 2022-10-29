@@ -49,13 +49,65 @@ export function Ask(){
 
 }
 
+// ========================= ADD MONTH INPUT =========================
+
+export function addMonthInput(){
+		let input = document.querySelector('.form-input')
+		let mnth = document.createElement('select')
+		mnth.setAttribute("name",name)
+		mnth.classList.add('date-months')
+		mnth.style.padding = '5px 10px';
+		mnth.style.marginLeft = '10px';
+		mnth.style.marginRight = '10px';
+		mnth.style.backgroundColor = '#fff';
+		mnth.style.border = 'none';
+		mnth.style.outline = 'none';	
+		input.appendChild(mnth)
+		for (let mn of pt_months) {
+			let month = document.createElement('option')
+			month.setAttribute("value",mn)
+			month.textContent = mn
+			mnth.appendChild(month)
+		}
+		
+		let years = document.createElement('select')
+		years.setAttribute("name",name)
+		years.classList.add('month-years')
+		years.style.padding = '5px 15px';
+		years.style.marginLeft = '10px';
+		years.style.backgroundColor = '#fff';
+		years.style.border = 'none';
+		years.style.outline = 'none';
+		
+		input.appendChild(years)
+		let pt_years = [];
+		const d = new Date();
+		let max_year = d.getFullYear();
+		let min_year = max_year - 125;
+		for (var i = max_year; i >= min_year; i--) {
+			pt_years.push(i)
+		}
+		
+		for (let yr of pt_years) {
+			let year = document.createElement('option')
+			year.setAttribute("value",yr)
+			year.textContent = yr
+			years.appendChild(year)
+		}
+}
+
+export function removeMonthInput(){
+		document.querySelector('.date-months').remove()
+		document.querySelector('.month-years').remove()
+}
+
 // ===================================================
 export function addChatBot() {
 		/* this function starts the chatbot and add it to the webpage */
     
 	// chat container
 	const chat_bot = document.createElement('div')
-	chat_bot.classList.add('chatbot-chat-container')
+	chat_bot.classList.add('chatbot-chat-container', 'fixed', 'w-screen')
 	chat_bot.setAttribute("id","chat-bot");
 	chat_bot.style.display = 'block';
 
@@ -68,7 +120,7 @@ export function addChatBot() {
 	chat_header_container.classList.add('chatbot-chat-inner-container-header-container')
 
 	const chat_header = document.createElement('div')
-	chat_header.classList.add('chatbot-chat-inner-container-header')
+	chat_header.classList.add('chatbot-chat-inner-container-header', 'text-lg', 'sm:text-xl')
 	chat_header.textContent = "Escrevendo Currículo";
 
 	// header bot logo
@@ -87,12 +139,12 @@ export function addChatBot() {
 	// ======================
 	// message container
 	const message_container = document.createElement('div')
-	message_container.classList.add('chatbot-message-container')
+	message_container.classList.add('chatbot-message-container', 'basis-3/5')
 
 	// append this to chat inner container
 	chat_bot.appendChild(message_container)
-
 	createInput()
+	
 }
 
 export function removeInput(){
@@ -233,12 +285,10 @@ export function createInput(type=false, placeholder=false, name=false){
 
 			if (text) {
 				
-				if (Ask.asked== "Pode informar seu Nome Completo?") {
+				if (Ask.asked== "Vamos iniciar informando seu Nome Completo?") {
 					name=text
 					localStorage.setItem('name', text);
-					removeInput()
 					Ask.asked = "Pode fornecer um endereço para contato?"
-					createInput(false, 'seu endereço')
 					addBotChat(Ask.asked);
 					
 				} else if (Ask.asked== "Pode fornecer um endereço para contato?") {
@@ -272,7 +322,7 @@ export function createInput(type=false, placeholder=false, name=false){
             /* SECTION 1: data intake ENDS here*/   
             /* SECTION 2-4 flow is intialzed here*/
             /* SECTION 2 flow data intake STARTS here*/                   
-						optionsContainer(Ask.section2, section2, "auto", "EXPERIÊNCIA", "section2", true)
+						optionsContainer(Ask.section2, section2, "auto", "EXPERIÊNCIA", "section2", true, true)
 					
 					} else {
 						Ask.asked = "Por favor insira um número de telefone válido."
@@ -296,8 +346,6 @@ export function createInput(type=false, placeholder=false, name=false){
 					// ask the role in the company
 					Ask.asked = "Qual foi a sua ocupação, posição ou função nesta empresa?"
                     			addBotChat(Ask.asked)
-					removeInput()
-					createInput(false, 'escreva sua mensagem aqui')
 					
 				// if user entered role in the company
 				} else if (Ask.asked == "Qual foi a sua ocupação, posição ou função nesta empresa?") {
@@ -327,8 +375,6 @@ export function createInput(type=false, placeholder=false, name=false){
 					// ask last date of the occupation
 					Ask.asked = 'Quando terminou esta ocupação?'
 					addBotChat(Ask.asked)
-					removeInput()
-					createInput('month',false,'occupation')
 					
 				// if user entered last date of the occupation
 				} else if (Ask.asked == 'Quando terminou esta ocupação?') {
@@ -346,10 +392,10 @@ export function createInput(type=false, placeholder=false, name=false){
 					section5['company'][company_count]['occupation'][occupation_count]['roles'].push(text)
 					// ask if want to add more responsibility
 					// take to under line 184
+					removeInput();
 					Ask.asked = 'Gostaria de acrescentar mais uma responsabilidade?'
 					addBotChat(Ask.asked)
 					optionsContainer([["sim", "não"], false], [], "auto auto")
-					removeInput();
 					
 			/* SECTION 6 is initiated here */
 				// if asked for year of degree completion
@@ -476,6 +522,9 @@ export function createInput(type=false, placeholder=false, name=false){
 				}
 					
 			}
+			const message_container = document.querySelector(".chatbot-message-container");
+			message_container.scrollTop = message_container.scrollHeight;
+			
 			input.value = "";
 		})
 
@@ -514,7 +563,7 @@ export function botButton() {
 	const svg = document.createElement("img");
 	svg.src = "https://chatcv.net/wp-content/themes/twentytwentytwo/assets/images/chatbot.svg";
 	svg.alt = "chatbot icon";
-	svg.classList.add('bot-btn-icon', 'object-cover', 'object-cover', 'rounded-full', 'p-4', 'h-16', 'w-16')
+	svg.classList.add('bot-btn-icon', 'object-cover', 'object-cover', 'rounded-full', 'p-4', 'h-16', 'w-16', 'bottom-12', 'md:bottom-6','lg:bottom-6','xl:bottom-6', '2xl:bottom-6', 'right-3.5')
 
 /*	const bot_btn = document.createElement('button')
 	bot_btn.classList.add('review-container')
@@ -546,7 +595,7 @@ export function botButton() {
 export function addReviewSection() {
 	// review container
 	const review_container = document.createElement('div')
-	review_container.classList.add('review-container')
+	review_container.classList.add('review-container', 'relative')
 	review_container.style.display = 'block'
 
 	// inner review container
@@ -565,10 +614,11 @@ export function addReviewSection() {
 	let left_view_text;
 	left_view_text = document.createElement('p')
 	left_view_text.classList.add('left-review-option-text')
+	left_view_text.textContent = 'Selecione uma opção para revisar seu conteúdo.';
 	
 	// right container for items list
 	const elements_right_options = document.createElement('div')
-	elements_right_options.classList.add('elements-right-options')
+	elements_right_options.classList.add('elements-right-options', 'h-40')
 	
 	
 	const elements_list = document.createElement('ul')
@@ -783,7 +833,7 @@ export function addReviewSection() {
 	review_container.appendChild(review_container_inner)
 
 	const message_container = document.querySelector(".chatbot-message-container");
-	message_container.appendChild(review_container);
+	document.querySelector('.chatbot-chat-container').next(review_container);
 	message_container.scrollTop = message_container.scrollHeight;
 
 }
@@ -883,13 +933,13 @@ export function addBotChat(text, flag=false) {
 	bot_avatar.classList.add('bot_avatar')
 	//bot_avatar.src = "https://chatcv.net/wp-content/themes/twentytwentytwo/assets/images/botIcon.png";
 	bot_avatar.src = "https://chatcv.net/wp-content/themes/twentytwentytwo/assets/images/chatbot.svg";
-    bot_avatar.alt = "bot avatar";
+    	bot_avatar.alt = "bot avatar";
 	
     // avatar svg
 	const bot_avatar_svg = document.createElement('img')
 	bot_avatar_svg.classList.add('user_avatar_svg');
 	//bot_avatar_svg.src = "https://chatcv.net/wp-content/themes/twentytwentytwo/assets/images/botIcon.png";
-    bot_avatar_svg.src = "https://chatcv.net/wp-content/themes/twentytwentytwo/assets/images/chatbot.svg";
+    	bot_avatar_svg.src = "https://chatcv.net/wp-content/themes/twentytwentytwo/assets/images/chatbot.svg";
 	bot_avatar_svg.alt = "bot avatar";
 	
 	// add svg to avatar and avatar to avatar container
@@ -910,7 +960,7 @@ export function addBotChat(text, flag=false) {
 
 // ================================================================================================
 // function to add options
-export function optionsContainer(optionsArray, fillData, cols, about=false, what_asked=false, done=false){
+export function optionsContainer(optionsArray, fillData, cols, about=false, what_asked=false, done=false, is_shuffle=false){
 	
     let limit = optionsArray[1]
     if (about && limit) {
@@ -924,7 +974,11 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 		Ask.asked=what_asked
 	}
 	
-	optionsArray = shuffle(optionsArray[0]) // shuffling the input arrays
+	if (is_shuffle) {
+		optionsArray = shuffle(optionsArray[0]) // shuffling the input arrays
+	} else {
+		optionsArray = optionsArray[0]
+	}
 	const length = optionsArray.length;
 	
 	// options container
@@ -986,7 +1040,7 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 					window.open("https://chatcv.net", "_self");
 
 				} else if (option.textContent=="Reiniciar") {
-					Ask.asked = "Pode informar seu Nome Completo?";
+					Ask.asked = "Vamos iniciar informando seu Nome Completo?";
 					addBotChat(Ask.asked);
 					createInput();
 				} else if (option.textContent=="Fechar janela") {
@@ -1009,7 +1063,8 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 				addBotChat("Continuar - vai levá-lo ao próximo passo.")
 				addBotChat("Sair - todos os seus dados serão perdidos.")
 				addBotChat("Reiniciar - começa uma nova conversa.")
-				optionsContainer([["Continuar", "Sair", "Reiniciar"], false], [], "auto auto auto")
+				optionsContainer([["Continuar", "Reiniciar", "Sair"], false], [], "auto auto auto")
+				
 			} else if (option.textContent=="Baixar") {
 				console.log('****************************************************************')
 				downloadCV(localStorage.getItem('email_content'))
@@ -1038,9 +1093,9 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 					// occupation in the company is also a dictionary
 					section5['company'][company_count]['occupation'] = {}
 					// ask company name
-					Ask.asked = "Qual o nome da empresa ou empregador? Citar mais recente para mais antiga."
-                    addBotChat(Ask.asked)
 					createInput()
+					Ask.asked = "Qual o nome da empresa ou empregador? Citar mais recente para mais antiga."
+                   			addBotChat(Ask.asked)
 					
 				// if user was asked to add more responsibility
 				} else if (Ask.asked=='Gostaria de acrescentar mais uma responsabilidade?'){
@@ -1052,18 +1107,23 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 				// if user was asked to add more occupation
 				} else if (Ask.asked=='Gostaria de adicionar outra ocupação?'){
 					// increase occupation_count by 1
+					/*ask the occupation*/
 					occupation_count++
-					// ask the occupation
 					Ask.asked = "Qual foi a sua ocupação, posição ou função nesta empresa?"
 					addBotChat(Ask.asked)
 					createInput()
 
-				// if user was asked to add more degree
+			//  if user was asked to add more degree
 				} else if (Ask.asked=='Você quer adicionar outro grau?'){
 					// Reiniciar SECTION 6 here
 					Ask.asked = 'Qual foi o ano de conclusão?'
 					addBotChat(Ask.asked)
-					createInput('month', false, 'degree')
+					createInput('month', false, false)
+					//var input_container = document.querySelector('.chatbot-input-container')
+				//	var input_replace = document.createElement('div')
+				//	input_replace.classList.add('form-input')
+				//	input_container.replaceChild(input_replace, input_container.childNodes[0])
+					//addMonthInput()
 
 					// if asked to confirm if the user is graduate
 				} else if (Ask.asked == 'Qual é a situação do seu diploma?') {
@@ -1077,9 +1137,9 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 				} else if (Ask.asked=='Deseja adicionar curso na seção TREINAMENTOS E/OU ESPECIALIZAÇÕES?' ||
 							Ask.asked=='Deseja adicionar curso na seção TREINAMENTOS E/OU ESPECIALIZAÇÕES?'){
 					// Continuar to SECTION 7 here
+					createInput()
 					Ask.asked = 'Qual é o tipo de curso?'
 					addBotChat(Ask.asked)
-					createInput()
 
 				// if asked to add language OR another language
 				} else if (Ask.asked=='Deseja adicionar proficiência em Idiomas?' ||
@@ -1113,8 +1173,8 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 addBotChat(Ask.asked, " Obrigatório em todos currículos. Recomenda-se sempre iniciar pela mais alta formação, adicionando as outras de forma decrescente.");
 					// start SECTION 6, ask for year of degree completion
 					Ask.asked = 'Qual foi o ano de conclusão?'
-					setTimeout(addBotChat(Ask.asked), 500)
-					createInput('month', false, 'degree')
+					addBotChat(Ask.asked)
+					createInput('month',false,false)
 					
 				// if user was asked to add more responsibility
 				} else if (Ask.asked=='Gostaria de acrescentar mais uma responsabilidade?') {
@@ -1122,7 +1182,6 @@ addBotChat(Ask.asked, " Obrigatório em todos currículos. Recomenda-se sempre i
 					Ask.asked = 'Gostaria de adicionar outra ocupação?'
 					addBotChat(Ask.asked)
 					optionsContainer([["sim", "não"], false], [], "auto auto")
-					removeInput();
 
 				// if user wasked to add more occupation
 				} else if (Ask.asked=='Gostaria de adicionar outra ocupação?') {
@@ -1130,15 +1189,14 @@ addBotChat(Ask.asked, " Obrigatório em todos currículos. Recomenda-se sempre i
 					Ask.asked = 'Deseja adicionar outra empresa?'
 					addBotChat(Ask.asked)
 					optionsContainer([["sim", "não"], false], [], "auto auto")
-					removeInput();
 				
 				// if asked to confirm if the user is graduate
 				} else if (Ask.asked == 'Qual é a situação do seu diploma?') {
 					edu_temp.push(text)
 					// ask for location of the institute
+					createInput()
 					Ask.asked = 'Em qual cidade?'
 					addBotChat(Ask.asked)
-					createInput()
 
 				// if user was asked to add another degree
 				} else if (Ask.asked=='Você quer adicionar outro grau?'){
@@ -1149,7 +1207,6 @@ addBotChat(Ask.asked, " Obrigatório em todos currículos. Recomenda-se sempre i
 					Ask.asked = 'Deseja adicionar curso na seção TREINAMENTOS E/OU ESPECIALIZAÇÕES?'
 					addBotChat(Ask.asked)
 					optionsContainer([["sim", "não"], false], [], "auto auto")
-					removeInput();
 
 				// if user was asked to Continuar to SECTION 7 to add some other course type
 				// OR asked if wants to add more course of other type
@@ -1162,7 +1219,6 @@ addBotChat(Ask.asked, " Obrigatório em todos currículos. Recomenda-se sempre i
 					Ask.asked = 'Deseja adicionar proficiência em Idiomas?'
 					addBotChat(Ask.asked)
 					optionsContainer([["sim", "não"], false], [], "auto auto")
-					removeInput();
 
 				// if asked to add more language profieciency OR add another language
 				} else if (Ask.asked=='Deseja adicionar proficiência em Idiomas?' ||
@@ -1174,7 +1230,6 @@ addBotChat(Ask.asked, " Obrigatório em todos currículos. Recomenda-se sempre i
 					Ask.asked = 'Deseja preencher PRÊMIOS, BOLSAS, CERTIFICAÇÕES E LICENÇAS ?'
 					addBotChat(Ask.asked)
 					optionsContainer([["sim", "não"], false], [], "auto auto")
-					removeInput();
 
 				// if asked to add certificates OR another certificate
 				} else if (Ask.asked=='Deseja preencher PRÊMIOS, BOLSAS, CERTIFICAÇÕES E LICENÇAS ?' ||
@@ -1191,9 +1246,9 @@ addBotChat(Ask.asked, " Obrigatório em todos currículos. Recomenda-se sempre i
 			} else if (option.textContent=="concluído" || option.textContent=="concluído" || option.textContent=="em curso" ) {
 				edu_temp.push(option.textContent)
 				// ask for location of the institute
+				createInput()
 				Ask.asked = 'Em qual cidade?'
 				addBotChat(Ask.asked)
-				createInput()
 				
 			} else if (option.textContent=="Via e-mail" || option.textContent=='Tente novamente') {
 				let email_data = {
@@ -1229,12 +1284,12 @@ addBotChat(Ask.asked, " Obrigatório em todos currículos. Recomenda-se sempre i
 			/* SECTION 2 is saved here and SECTION 3, Options SECTION, is initiated here */
 			if (Ask.asked=="section2") {
 				localStorage.setItem('section2', JSON.stringify(section2));
-				optionsContainer(Ask.section3, section3, "auto", about="CAPACIDADES E HABILIDADES", what_asked="section3", done=true)
+				optionsContainer(Ask.section3, section3, "auto", about="CAPACIDADES E HABILIDADES", what_asked="section3", done=true, is_shuffle=true)
 
 			/* SECTION 3 is saved here and SECTION 4, Options SECTION, is initiated here */
 			} else if (Ask.asked=="section3") {
 				localStorage.setItem('section3', JSON.stringify(section3));
-				optionsContainer(Ask.section4, section4, "auto auto auto", about="CONHECIMENTO DE FERRAMENTAS", what_asked="section4", done=true)
+				optionsContainer(Ask.section4, section4, "auto auto auto", about="CONHECIMENTO DE FERRAMENTAS", what_asked="section4", done=true, is_shuffle=true)
 
 			/* SECTION 4 is saved here and SECTION 5, text input SECTION, is initiated here */
 			} else if (Ask.asked=="section4") {
@@ -1248,7 +1303,7 @@ addBotChat(Ask.asked, " Obrigatório em todos currículos. Recomenda-se sempre i
 				optionsContainer([["sim", "não"], false], [], "auto auto")
 			}
 		}
-		options_container.appendChild(done_btn_container);
+		buttons_container.appendChild(done_btn_container);
 	}
 	
 	

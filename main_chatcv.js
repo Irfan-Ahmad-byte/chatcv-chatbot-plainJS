@@ -19,8 +19,6 @@ function chatFlow() {
 		addBotChat(wel);
 	}
 	Ask.asked = "Vamos iniciar informando seu Nome Completo?";
-	removeInput()
-	createInput('name', 'seu nome completo')
 	addBotChat(Ask.asked);
 }
 
@@ -41,7 +39,7 @@ document.body.onload = () => {
 		 });
 		botButton()
 		chatFlow()
-		 
+		
 
 	} else if (URL== "https://chatcv.net/?page_id=193&preview=true") {
 		import('./profiles/profile2.js').then(module => {

@@ -5,12 +5,11 @@ this css file contains styles for chatcv bot
 /* style for chatbot container  */
 #chat-bot {
 	top: 0px;
-	border: none;
-	position: fixed;   /*do not change*/
+/*	border: none;
+	position: fixed;*/   /*do not change*/
 	z-index: 1000000000;   /*do not change*/
 	background-color: #DDEDF0;
-	width : 100vw;  
-	height : 100vh;  
+	height : 100%;
 }
 
 /* style for chat bot header container*/
@@ -40,8 +39,8 @@ this css file contains styles for chatcv bot
 
 /* chatbot message container */
 .chatbot-message-container {
-	height: 72vh;
-	max-height: 80vh;
+	height: auto;
+	max-height: 80%;
 	overflow: auto;
 	padding: 0 25px 10px;  
 }
@@ -65,6 +64,8 @@ this css file contains styles for chatcv bot
 	border-bottom-left-radius: 5px;
 	width: 100%;
 	outline: none !important;
+	height: 3rem;
+	max-height: 9rem;
 }
 
 /* form input button */
@@ -98,8 +99,6 @@ this css file contains styles for chatcv bot
 .bot-btn-icon{
 	position: fixed;   /*do not change*/
 	z-index: 10000000000000000000;   /*do not change*/
-	right: 40px;
-	bottom: 15px;
 	fill: #fff;
 	color: #fff;
 	background-color: #1f3646;
@@ -163,7 +162,7 @@ this css file contains styles for chatcv bot
 	display: flex;   /*do not change*/
 	justify-content: flex-start;   /*do not change*/
 	margin-top: 15px;
-    margin-bottom: 15px;
+    	margin-bottom: 15px;
 }
 
 /* bot's message */
@@ -217,7 +216,7 @@ this css file contains styles for chatcv bot
 	column-gap: 10px;
 	row-gap: 7px;
 	padding: 5px;   
-	max-width: 50vw;
+	max-width: 70vw;
 }
 
 /* options container item */
@@ -225,7 +224,7 @@ this css file contains styles for chatcv bot
 	background-color: #84a9af;
 	color: #000;
 	padding: 10px 5px;   
-	font-size: 1.rem;
+	font-size: 1.0rem;
 	text-align: center;
 	cursor: pointer;
 }
@@ -233,15 +232,14 @@ this css file contains styles for chatcv bot
 /* done button container */
 .options-buttons-done-container{
 	background-color: #fff;
-	padding: 10px 10px;   
-	margin: 5px 0px 5px 5px;   
+	padding: 10px 5px;   
+/*	margin: 5px 0px 5px 5px;   */
 	text-align: center;
-	width: 50vw;
 	color: #000;
-	font-weight: 600;
+	font-weight: 500;
 	cursor: pointer;
-    border: none;
-    outline: none;
+	border: none;
+	outline: none;
 }
 
 /* input text options*/
@@ -252,11 +250,11 @@ this css file contains styles for chatcv bot
 
 /* review container */
 .review-container {
-	right: 25%;
 	top: 35%;
 	/* margin: auto; */
 	background-color: #84A9AF;
 	padding: 20px;
+	z-index: 100000000000000000000;
 }
 
 .review-inner-container {
