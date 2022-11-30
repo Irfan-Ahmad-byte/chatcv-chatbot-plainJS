@@ -109,9 +109,7 @@ this css file contains styles for chatcv bot
 
 /* user's message container*/
 .user_chat_container{
-	display: flex;   /*do not change*/
-	justify-content: flex-end;   /*do not change*/
-	margin: 15px 0;   
+	margin: 15px 0;
 }
 
 /* user's message */
@@ -123,7 +121,7 @@ this css file contains styles for chatcv bot
 	font-weight: medium;
 	padding: 15px;   
 	position: relative;   /*do not change*/
-	text-align: right;   /*do not change*/
+	text-align: left;   /*do not change*/
 }
 
 /* user's message right triangle to show user's message */
@@ -137,23 +135,15 @@ this css file contains styles for chatcv bot
 	top: 15px;   /*do not change*/
 }
 
-/* user's avatar container */
-.user_avatar{
-	align-items: center;
-	background-color: #84a9af;
-	border-radius: 50%;
-	display: flex;   /*do not change*/
-	height: 50px;
-	justify-content: center;   
-	margin-left: 12.5px;   
-	width: 50px;
-}
 
 /* user avatar image */
 .user_avatar_svg{
+	margin-left: 12.5px;   
+	background-color: #84a9af;
 	fill: #fff;
-	height: 25px;
-	width: 25px;
+	height: 40px;
+	width: 40px;
+	padding: 0.5rem;
 }
 
 
@@ -174,6 +164,9 @@ this css file contains styles for chatcv bot
 	padding: 15px;   
 	position: relative;   
 	text-align: left;
+}
+.bot_chat_message_followup {
+	margin-left: 52px;
 }
 
 /* bot's message note */
@@ -197,12 +190,11 @@ this css file contains styles for chatcv bot
 
 /* bot's avatar */
 .bot_avatar{
-    background-color: #1f3646;    /*my chanfe&/
-	align-items: center;   /*do not change*/
-	border-radius: 50%;
-	height: 40px;
+	background-color: #1f3646;    /*my chanfe*/
 	margin-right: 12.5px;   /*do not change*/
+	height: 40px;
 	width: 40px;
+	padding: .3rem;
 }
 
 /* options container */
@@ -219,6 +211,21 @@ this css file contains styles for chatcv bot
 	max-width: 70vw;
 }
 
+/* months and years*/
+.calendar{
+	margin-left : 10px;
+	background-color : #fff;
+	border : none;
+	outline : none;
+}
+.date-months {
+	padding : 5px 10px;
+	margin-right: 10px;
+}
+.month-years {
+	padding: 5px 35px;
+}
+
 /* options container item */
 .options-container-item{
 	background-color: #84a9af;
@@ -232,8 +239,9 @@ this css file contains styles for chatcv bot
 /* done button container */
 .options-buttons-done-container{
 	background-color: #fff;
-	padding: 10px 5px;   
-/*	margin: 5px 0px 5px 5px;   */
+	padding: 10px 5px;
+	width: 68.5vw;
+	margin: 5px 0px 5px 7px;
 	text-align: center;
 	color: #000;
 	font-weight: 500;
@@ -250,18 +258,67 @@ this css file contains styles for chatcv bot
 
 /* review container */
 .review-container {
-	top: 35%;
 	/* margin: auto; */
 	background-color: #84A9AF;
-	padding: 20px;
+	padding: 2px;
 	z-index: 100000000000000000000;
+	box-shadow: 0.5rem 0.5rem #1f3646, -0.5rem -0.5rem #fff;
+	border-radius: 0.375rem;
+	height: 75%;
+	max-height: 75%;
+	overflow: auto;
+	/*right: 40px;
+	top: 112%;*/
 }
 
 .review-inner-container {
 	background-color: #fff;
 	column-gap: 10px;
+	border-radius: 0.375rem;
 /*	display: grid;
 	grid-template-columns: auto auto;*/
+}
+
+@media (min-width: 640px) and (max-width: 768px) {
+	
+	.review-container {
+		right: 0px;
+	}
+	.review-inner-container {
+		height: 100%;
+	}
+	.elements-right-options, .elements-left-view {
+		height: 100%;
+		max-height: 100%;
+		overflow: auto;
+	}
+	.elements-left-view{
+		border-right: none;
+	}
+	.elements-right-options {
+		border-left: none;
+		border-top: 5px solid #84a9af;
+	}
+}
+
+@media (max-width: 640px) {
+	.review-container {
+		right: 0px;
+	}
+	.review-inner-container {
+		height: 100%;	}
+	.elements-right-options, .elements-left-view {
+		height: 100%;
+		max-height: 100%;
+		overflow: auto;
+	}
+	.elements-left-view{
+		border-right: none;
+	}
+	.elements-right-options {
+		border-left: none;
+		border-top: 5px solid #84a9af;
+	}
 }
 
 .review-container-header{
@@ -270,16 +327,52 @@ this css file contains styles for chatcv bot
 	margin: auto;
 }
 
+.hide-btn {
+	background-color: #fff;
+	border: 1px solid #1f3646;
+	position: fixed;   /*do not change*/
+	z-index: 10000000000000000000;   /*do not change*/
+	height: 40px;
+	width: 40px;
+	cursor: pointer;
+	transition: transform 2s;
+	
+}
+
+.rotate-180 {
+	transform: rotate(180deg);
+}
+
+.show {
+	opacity:0;
+	z-index: -1;
+}
+
+
 .elements-right-options {
-	border: 1px solid #84a9af;
 	padding: 2px;
 	text-align: left;
+	height: 100%;
+	max-height: 100%;
+	overflow: auto;
+}
+
+.edit-btn {
+	padding: 3px 5px;
+	background-color: #1f3646;
+	right: 0;
+	color: #fff;
+	box-shadow: rgb(0 0 0 / 16%) 0px 3px 6px, rgb(0 0 0 / 23%) 0px 3px 6px;
 }
 
 .elements-left-view {
-	border: 1px solid #84a9af;
+	border-right: 1px solid #84a9af;
 	padding: 2px 5px;
 	text-align: left;
+}
+
+.left-review-option-text{
+	border: none;
 }
 
 .review-list-option {
@@ -309,48 +402,3 @@ this css file contains styles for chatcv bot
 }
 
 
-/* Responsiveness queries*/
-/*@media only screen and (max-width: 800px) {
-  .templates-container {
-	grid-template-columns:40%;
-	}
-
-.user_chat_message{
-	font-size: 1.rem;
-}
-.bot_chat_message{
-	font-size: 1.rem;
-}
-
-#chatbot-input-container{
-	height: 50px;
-}*/
-/* input area */
-/*.form-input{
-	padding: 5px;
-	height: auto;
-	font-size: 1rem;
-}*/
-
-/* form input button */
-/*.form-input-btn{
-	padding: 5px;
-	height: auto;
-}
-}
-
-@media only screen and (max-width: 630px) {
-
-}*/
-/*
-@media only screen and (max-width: 900px) {
-  .review-inner-container {
-	grid-template-columns: auto !important;
-	}
-	
-  .options-buttons-container{
-  	grid-template-columns: auto !important;
-	}
-}*/
-
-/* IPhone 6 */

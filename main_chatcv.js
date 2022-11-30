@@ -15,11 +15,11 @@ import { Welcome } from './flow/Welcome.js';
 
 function chatFlow() {
 	addChatBot();
-	for (let wel of Welcome()){
-		addBotChat(wel);
-	}
+	var welcom_msgs = Welcome()
+	addBotChat(welcom_msgs[0])
+	setTimeout(addBotChat, 4000, welcom_msgs[1],false,true)
 	Ask.asked = "Vamos iniciar informando seu Nome Completo?";
-	addBotChat(Ask.asked);
+	setTimeout(addBotChat,8000,Ask.asked,false,true);
 }
 
 
@@ -32,7 +32,7 @@ document.body.onload = () => {
 	URL = current_url();
 	if (URL=="https://chatcv.net/profile-aarn_05/") {
 		
-		import('./profiles/profile5.js').then(module => {
+		import('./profiles/Profile AARN_05.js').then(module => {
 		 	Ask.section2 = module.section2();
 		 	Ask.section3 = module.section3();
 		 	Ask.section4 = module.section4();
@@ -60,7 +60,7 @@ document.body.onload = () => {
 		chatFlow()		
 		
 	// custom thank you page
-	} else if (URL== 'https://chatcv.net/?page_id=10988&preview=true') {
+	} else if (URL== 'https://chatcv.net/custom-thank-you-page/') {
 		botButton()
 		addChatBot();
 		

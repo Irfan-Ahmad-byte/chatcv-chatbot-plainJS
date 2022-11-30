@@ -46,6 +46,7 @@ export function Ask(){
 	var section4 = false;	// to modify them from other modules i.e main_chatcv.js file profile pages
 	var email_content = false;		// email content to be accessed and modified from other modules to
 	var template = 0;		// as a templates reference for different templates i.e. 1, 2, 3, 4 ......
+	var edit = false;	// to edit any section
 
 }
 
@@ -55,13 +56,8 @@ export function addMonthInput(){
 		let input = document.querySelector('.form-input')
 		let mnth = document.createElement('select')
 		mnth.setAttribute("name",name)
-		mnth.classList.add('date-months')
-		mnth.style.padding = '5px 10px';
-		mnth.style.marginLeft = '10px';
-		mnth.style.marginRight = '10px';
-		mnth.style.backgroundColor = '#fff';
-		mnth.style.border = 'none';
-		mnth.style.outline = 'none';	
+		mnth.classList.add('calendar','date-months')
+	
 		input.appendChild(mnth)
 		for (let mn of pt_months) {
 			let month = document.createElement('option')
@@ -72,12 +68,7 @@ export function addMonthInput(){
 		
 		let years = document.createElement('select')
 		years.setAttribute("name",name)
-		years.classList.add('month-years')
-		years.style.padding = '5px 15px';
-		years.style.marginLeft = '10px';
-		years.style.backgroundColor = '#fff';
-		years.style.border = 'none';
-		years.style.outline = 'none';
+		years.classList.add('calendar','month-years')
 		
 		input.appendChild(years)
 		let pt_years = [];
@@ -110,6 +101,7 @@ export function addChatBot() {
 	chat_bot.classList.add('chatbot-chat-container', 'fixed', 'w-screen')
 	chat_bot.setAttribute("id","chat-bot");
 	chat_bot.style.display = 'block';
+	chat_bot.style.scrollBehavior= 'smooth';
 
 	// append to main container
 	document.body.appendChild(chat_bot)
@@ -126,7 +118,7 @@ export function addChatBot() {
 	// header bot logo
 	const bot_logo = document.createElement('img')
 	bot_logo.classList.add('chatbot-chat-inner-container-header-logo')
-	bot_logo.src = "https://chatcv.net/wp-content/themes/twentytwentytwo/assets/images/bot logo T.png"
+	bot_logo.src = "https://chatcv.net/wp-content/themes/twentytwentytwo/assets/images/LOGO.png"
 	bot_logo.alt = "chatbot logo"
 
 	// add the header and bot logo into the header container
@@ -186,7 +178,7 @@ export function createInput(type=false, placeholder=false, name=false){
 
 	let input;
 	if (type && type!='month'){
-		input = document.createElement('input')
+		input = document.createElement('textarea')
 		input.setAttribute("type",type)
 		
 	} else if (type && type=='month') {
@@ -194,7 +186,7 @@ export function createInput(type=false, placeholder=false, name=false){
 		input.style.backgroundColor= '#fff'
 
 	} else {
-		input = document.createElement('input')
+		input = document.createElement('textarea')
 		input.setAttribute("type","text")
 		console.log('***********>>>>>>>>>>>>>>>>>>>>>>>>>>')
 	}
@@ -235,6 +227,7 @@ export function createInput(type=false, placeholder=false, name=false){
 		years.classList.add('month-years')
 		years.style.padding = '5px 10px';
 		years.style.marginLeft = '10px';
+		mnth.style.marginRight = '10px';
 		years.style.backgroundColor = '#fff';
 		years.style.border = 'none';
 		years.style.outline = 'none';
@@ -288,16 +281,37 @@ export function createInput(type=false, placeholder=false, name=false){
 				if (Ask.asked== "Vamos iniciar informando seu Nome Completo?") {
 					name=text
 					localStorage.setItem('name', text);
-					Ask.asked = "Pode fornecer um endereço para contato?"
-					addBotChat(Ask.asked);
+					if (!Ask.edit) {
+						Ask.asked = "Pode fornecer um endereço para contato?"
+						addBotChat(Ask.asked);
+					} else {
+						removeInput()
+						addBotChat('Suas informações foram atualizadas.');
+						setTimeout(addBotChat,3000,"Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo.", true);
+						setTimeout(addBotChat,8000,false, "Continuar - vai levá-lo ao próximo passo.",true);
+						setTimeout(addBotChat,12000,false, "Sair - todos os seus dados serão perdidos.",true);
+						setTimeout(addBotChat,16000,false, "Reiniciar - começa uma nova conversa.", true);
+						
+						optionsContainer([["Continuar", "Reiniciar", "Sair"], false], [], "auto auto auto")
+					}
 					
 				} else if (Ask.asked== "Pode fornecer um endereço para contato?") {
 					address=text
 					localStorage.setItem('address', text);
 					removeInput()
-					Ask.asked = "Pode também fornecer um e-mail para contato?"
-					addBotChat(Ask.asked, "Por favor usar o mesmo e-mail durante nossa conversa !!!");
-					createInput('email', 'seu email')
+					if (!Ask.edit) {
+						Ask.asked = "Pode também fornecer um e-mail para contato?"
+						addBotChat(Ask.asked, false, "Por favor usar o mesmo e-mail durante nossa conversa !!!");
+						createInput('email', 'seu email')
+					} else {
+						addBotChat('Suas informações foram atualizadas.');
+						setTimeout(addBotChat,3000,"Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo.", true);
+						setTimeout(addBotChat,8000,false, "Continuar - vai levá-lo ao próximo passo.",true);
+						setTimeout(addBotChat,12000,false, "Sair - todos os seus dados serão perdidos.",true);
+						setTimeout(addBotChat,16000,false, "Reiniciar - começa uma nova conversa.", true);
+						
+						optionsContainer([["Continuar", "Reiniciar", "Sair"], false], [], "auto auto auto")
+					}
 					
 				} else if (Ask.asked== "Pode também fornecer um e-mail para contato?" || Ask.asked== "Favor fornecer um e-mail válido.") {
 					let valid = ValidateEmail(input)
@@ -305,9 +319,20 @@ export function createInput(type=false, placeholder=false, name=false){
 						email = text
 						localStorage.setItem('email', text);
 						removeInput()
-						Ask.asked = "Pode fornecer um número de telefone para contato?"
-						addBotChat(Ask.asked, 'Favor usar somente números!!!');
-						createInput('tel', 'seu numero de telefone')
+						if (!Ask.edit) {
+							Ask.asked = "Pode fornecer um número de telefone para contato?"
+							addBotChat(Ask.asked,false, 'Favor usar somente números!!!');
+							createInput('tel', 'seu numero de telefone')
+						} else {
+							addBotChat('Suas informações foram atualizadas.');
+							setTimeout(addBotChat,3000,"Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo.", true);
+							setTimeout(addBotChat,8000,false, "Continuar - vai levá-lo ao próximo passo.",true);
+							setTimeout(addBotChat,12000,false, "Sair - todos os seus dados serão perdidos.",true);
+							setTimeout(addBotChat,16000,false, "Reiniciar - começa uma nova conversa.", true);
+							
+							optionsContainer([["Continuar", "Reiniciar", "Sair"], false], [], "auto auto auto")
+						}
+						
 					} else {
 						Ask.asked = "Favor fornecer um e-mail válido."
 						addBotChat(Ask.asked);
@@ -321,12 +346,22 @@ export function createInput(type=false, placeholder=false, name=false){
 						removeInput();
             /* SECTION 1: data intake ENDS here*/   
             /* SECTION 2-4 flow is intialzed here*/
-            /* SECTION 2 flow data intake STARTS here*/                   
-						optionsContainer(Ask.section2, section2, "auto", "EXPERIÊNCIA", "section2", true, true)
+            /* SECTION 2 flow data intake STARTS here*/
+            					if (!Ask.edit) {
+							optionsContainer(Ask.section2, section2, "auto", "EXPERIÊNCIA", "section2", true, true)
+							
+						} else {
+							addBotChat('Suas informações foram atualizadas.');
+							setTimeout(addBotChat,3000,"Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo.", true);
+							setTimeout(addBotChat,8000,false, "Continuar - vai levá-lo ao próximo passo.",true);
+							setTimeout(addBotChat,12000,false, "Sair - todos os seus dados serão perdidos.",true);
+							setTimeout(addBotChat,16000,false, "Reiniciar - começa uma nova conversa.", true);
+							optionsContainer([["Continuar", "Reiniciar", "Sair"], false], [], "auto auto auto")
+						}                 
 					
 					} else {
 						Ask.asked = "Por favor insira um número de telefone válido."
-						addBotChat(Ask.asked, 'Favor não usar símbolos');
+						addBotChat(Ask.asked,false, 'Favor não usar símbolos');
 					}
 				}
                 
@@ -474,12 +509,12 @@ export function createInput(type=false, placeholder=false, name=false){
 					// ask the language proficiency
 					Ask.asked = 'Qual é a sua proficiência no idioma?'
 					addBotChat(Ask.asked)
+					setTimeout(addBotChat,4000,false, 'básico: não tem nível para desempenhar trabalho.',false)
+                    			setTimeout(addBotChat,8000,false,'intermediário: conduz conversação em diferentes situações e tem proficiência limitada para trabalhar.',true)
+                   	 		setTimeout(addBotChat,13000,false,'avançado: tem habilidade para conversas complexas, fala bem e escreve bem.',true)
+                    			setTimeout(addBotChat,18000,false,'proficiente/fluente: capacidade de fluir e dominar fala, leitura e escrita como nativo.',true)
 					optionsContainer([["básico", "intermediário", 'avançado', 'proficiente/fluente'], false], [], "auto auto auto auto")
-					addBotChat(false, 'básico: não tem nível para desempenhar trabalho.')
-                    addBotChat(false, 'intermediário: conduz conversação em diferentes situações e tem proficiência limitada para trabalhar.')
-                    addBotChat(false, 'avançado: tem habilidade para conversas complexas, fala bem e escreve bem.')
-                    addBotChat(false, 'proficiente/fluente: capacidade de fluir e dominar fala, leitura e escrita como nativo.')
-                    removeInput()
+                    			removeInput()
 	
 			/* SECTION 9 starts here */
 				// if asked title of the certificate
@@ -563,7 +598,7 @@ export function botButton() {
 	const svg = document.createElement("img");
 	svg.src = "https://chatcv.net/wp-content/themes/twentytwentytwo/assets/images/chatbot.svg";
 	svg.alt = "chatbot icon";
-	svg.classList.add('bot-btn-icon', 'object-cover', 'object-cover', 'rounded-full', 'p-4', 'h-16', 'w-16', 'bottom-12', 'md:bottom-6','lg:bottom-6','xl:bottom-6', '2xl:bottom-6', 'right-3.5')
+	svg.classList.add('bot-btn-icon', 'object-cover', 'object-cover', 'rounded-full', 'p-3.5', 'h-16', 'w-16', 'bottom-12', 'md:bottom-6','lg:bottom-6','xl:bottom-6', '2xl:bottom-6', 'right-3.5')
 
 /*	const bot_btn = document.createElement('button')
 	bot_btn.classList.add('review-container')
@@ -590,21 +625,55 @@ export function botButton() {
 	//bot_btn.appendChild(svg);
 }
 
+
+// =====================================================================================================
+// function to toggle review show and hide
+export function toggleReview(){
+	document.querySelector('.review-container').classList.toggle('show')
+	document.querySelector('.hide-btn').classList.toggle('rotate-180')
+}
+
+export function removeReview(){
+	document.querySelector('.review-container').remove()
+	document.querySelector('.hide-btn').remove()
+}
+
+// function to add and remove review section
+export function Hide() {
+	// button to hide review container
+	const hide_button = document.createElement("img");
+	hide_button.src = "https://chatcv.net/wp-content/themes/twentytwentytwo/assets/images/hide.svg";
+	hide_button.alt = "chatbot icon";
+	hide_button.classList.add('hide-btn', 'animate-pulse', 'object-cover', 'object-cover', 'rounded-full', 'p-3.5', 'h-16', 'w-16', 'right-3.5', 'top-2/4', 'rotate', 'rotate-180')
+	
+	hide_button.onclick = () => {
+		toggleReview()
+	}
+	
+	document.body.appendChild(hide_button)
+}
+
+
 // ================================================================================================
 // function for review section
 export function addReviewSection() {
 	// review container
 	const review_container = document.createElement('div')
-	review_container.classList.add('review-container', 'relative')
+	review_container.classList.add('review-container', 'absolute', 'right-0', 'top-28', 'md:right-10', 'lg:right-10', 'xl:right-10', '2xl:right-10')
 	review_container.style.display = 'block'
+	review_container.style.transition = ".5s ease-in-out";
 
 	// inner review container
 	const review_container_inner = document.createElement('div')
 	review_container_inner.classList.add('review-inner-container', 'grid', 'grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-2', 'xl:grid-cols-2', '2xl:grid-cols-2')
 	
 	const review_header = document.createElement('p')
-	review_header.classList.add('review-container-header')
-	review_header.textContent = 'Clique no título da seção para revisar seu conteúdo'
+	review_header.classList.add('review-container-header', 'flex', 'justify-between')
+	const head_text = document.createElement('span')
+	head_text.classList.add('review-container-header-text')
+	head_text.textContent = 'Clique no título da seção para revisar seu conteúdo'
+	
+	review_header.appendChild(head_text)
 	
 	
 	// left container for view of list
@@ -618,7 +687,7 @@ export function addReviewSection() {
 	
 	// right container for items list
 	const elements_right_options = document.createElement('div')
-	elements_right_options.classList.add('elements-right-options', 'h-40')
+	elements_right_options.classList.add('elements-right-options')
 	
 	
 	const elements_list = document.createElement('ul')
@@ -628,6 +697,70 @@ export function addReviewSection() {
 	
 	let review;
 	
+	const edit_btn = document.createElement('button')
+	edit_btn.classList.add('edit-btn')
+	edit_btn.textContent = 'editar'
+	edit_btn.onclick = () => {
+	
+		toggleReview()
+		
+		if (Ask.edit=="name") {
+			localStorage.removeItem('name');
+			Ask.asked = "Vamos iniciar informando seu Nome Completo?";
+			addBotChat(Ask.asked);
+			createInput()
+		} else if (Ask.edit=="address") {
+			localStorage.removeItem('address');
+			Ask.asked = "Pode fornecer um endereço para contato?"
+			addBotChat(Ask.asked);
+			createInput()
+		} else if (Ask.edit=="email") {
+			localStorage.removeItem('email');
+			Ask.asked = "Pode também fornecer um e-mail para contato?"
+			addBotChat(Ask.asked, "Por favor usar o mesmo e-mail durante nossa conversa !!!");
+			createInput('email', 'seu email')
+		} else if (Ask.edit=="phone") {
+			localStorage.removeItem('phone');
+			Ask.asked = "Pode fornecer um número de telefone para contato?"
+			addBotChat(Ask.asked, 'Favor usar somente números!!!');
+			createInput('tel', 'seu numero de telefone')
+		} else if (Ask.edit=="section2") {
+			localStorage.removeItem('section2');
+			optionsContainer(Ask.section2, section2, "auto", "EXPERIÊNCIA", false, true, true)
+		} else if (Ask.edit=="section3") {
+			localStorage.removeItem('section3');
+			optionsContainer(Ask.section3, section3, "auto", "CAPACIDADES E HABILIDADES", false, true, true)
+		} else if (Ask.edit=="section4") {
+			localStorage.removeItem('section4');
+			optionsContainer(Ask.section4, section4, "auto auto auto", "CONHECIMENTO DE FERRAMENTAS", false, true, true)
+		} else if (Ask.edit=="section5") {
+			localStorage.removeItem('section5');
+			Ask.asked = "Qual o nome da empresa ou empregador? Citar mais recente para mais antiga."
+                   	addBotChat(Ask.asked)
+                   	createInput()
+		} else if (Ask.edit=="section6") {
+			localStorage.removeItem('section6');
+			Ask.asked = 'Qual foi o ano de conclusão?'
+			addBotChat(Ask.asked)
+			createInput('month', false, false)
+		} else if (Ask.edit=="section7") {
+			localStorage.removeItem('section7');
+			Ask.asked = 'Qual é o tipo de curso?'
+			addBotChat(Ask.asked)
+			createInput()
+		} else if (Ask.edit=="section8") {
+			localStorage.removeItem('section8');
+			Ask.asked = 'Qual idioma?'
+			addBotChat(Ask.asked)
+			createInput()
+		} else if (Ask.edit=="section9") {
+			localStorage.removeItem('section9');
+			Ask.asked = 'Qual é o título da bolsa, prêmio, certificado?'
+			addBotChat(Ask.asked)
+			createInput()
+		}
+		
+	}
 	
 	for (let point of data_info) {
 		const review_list_option = document.createElement('li')
@@ -635,36 +768,36 @@ export function addReviewSection() {
 		review_list_option.textContent = point;
 
 		review_list_option.onclick = () => {
-            		if (document.querySelector('.left-review-option-text')){
-            			document.querySelector('.left-review-option-text').remove()
-            		}
+            		
+            		left_view_text.remove()
+           		
            		const review_container = document.createElement('div')
 			review_container.classList.add('review-reviewer')
 			
 			const option_value = review_list_option.textContent
 			
 			if ( option_value==data_info[0] ){
-				Ask.asked="name"
+				Ask.edit="name"
 				review = document.createElement('span')
 				review.textContent = localStorage.getItem('name');
 				
 			} else if ( option_value==data_info[1] ){
-				Ask.asked="address"
+				Ask.edit="address"
 				review = document.createElement('span')
 				review.textContent = address
 				
 			} else if ( option_value==data_info[2] ){
-				Ask.asked="email"
+				Ask.edit="email"
 				review = document.createElement('span')
 				review.textContent = email
 
 			} else if ( option_value==data_info[3] ){
-				Ask.asked="phone"
+				Ask.edit="phone"
 				review = document.createElement('span')
 				review.textContent = phone
 
 			} else if ( option_value==data_info[4] ){
-				Ask.asked='section2'
+				Ask.edit='section2'
 				if (section2.length>0){
 					review = document.createElement('ul')
 					for(let info of section2){
@@ -679,7 +812,7 @@ export function addReviewSection() {
 				}
 				
 			} else if ( option_value==data_info[5] ){
-				Ask.asked='section3'
+				Ask.edit='section3'
 				if (section3.length>0){
 					review = document.createElement('ul')
 					for(let info of section3){
@@ -694,7 +827,7 @@ export function addReviewSection() {
 				}
 				
 			} else if ( option_value==data_info[6] ){
-				Ask.asked='section4'
+				Ask.edit='section4'
 				if (section4.length>0){
 					review = document.createElement('ul')
 					for(let info of section4){
@@ -709,7 +842,7 @@ export function addReviewSection() {
 				}
 				
 			} else if ( option_value==data_info[7] ){
-				Ask.asked='section5'
+				Ask.edit='section5'
 				let keys = Object.keys(section5['company'])
 				if (keys.length>0){
 					review = document.createElement('ul')
@@ -756,7 +889,7 @@ export function addReviewSection() {
 				}
 				
 			} else if ( option_value==data_info[8] ){
-				Ask.asked='section6'
+				Ask.edit='section6'
 				if (section6.length>0){
 					review = document.createElement('ul')
 					for(let info of section6){
@@ -771,7 +904,7 @@ export function addReviewSection() {
 				}
 				
 			} else if ( option_value==data_info[9] ){
-				Ask.asked='section7'
+				Ask.edit='section7'
 				if (section7.length>0){
 					review = document.createElement('ul')
 					for(let info of section7){
@@ -786,7 +919,7 @@ export function addReviewSection() {
 				}
 				
 			} else if ( option_value==data_info[10] ){
-				Ask.asked='section8'
+				Ask.edit='section8'
 				if (section8.length>0){
 					review = document.createElement('ul')
 					for(let info of section8){
@@ -801,7 +934,7 @@ export function addReviewSection() {
 				}
 				
 			} else if ( option_value==data_info[11] ){
-				Ask.asked='section9'
+				Ask.edit='section9'
 				if (section9.length>0){
 					review = document.createElement('ul')
 					for(let info of section9){
@@ -821,6 +954,7 @@ export function addReviewSection() {
 			left_view_text.classList.add('left-review-option-text')
 			left_view_text.appendChild(review)
             		elements_right_options.appendChild(left_view_text)
+            		elements_right_options.appendChild(edit_btn)
 		}
 		
 		elements_list.appendChild(review_list_option)
@@ -833,7 +967,7 @@ export function addReviewSection() {
 	review_container.appendChild(review_container_inner)
 
 	const message_container = document.querySelector(".chatbot-message-container");
-	document.querySelector('.chatbot-chat-container').next(review_container);
+	document.querySelector('.chatbot-chat-container').appendChild(review_container);
 	message_container.scrollTop = message_container.scrollHeight;
 
 }
@@ -845,7 +979,7 @@ export function addUserChat(text) {
 	
 	// user chat container
 	const user_chat_container = document.createElement('div')
-	user_chat_container.classList.add('user_chat_container')
+	user_chat_container.classList.add('user_chat_container', 'flex', 'justify-end')
     	
     	// user chat message
 	const user_chat_message = document.createElement('div')
@@ -857,29 +991,17 @@ export function addUserChat(text) {
 	side.classList.add('user_chat_message_right_triangle')
   	user_chat_message.appendChild(side)
 	
-	// user avatar container
-	const user_avatar_container = document.createElement('div')
-	user_avatar_container.classList.add('user_avatar_container')
-	
-	// user avatar
-	const user_avatar = document.createElement('div')
-	user_avatar.classList.add('user_avatar')
-	
 	// avatar svg
 	const user_avatar_svg = document.createElement('img')
 	user_avatar_svg.src = "https://chatcv.net/wp-content/themes/twentytwentytwo/assets/images/user.svg";
 	user_avatar_svg.alt = "user avatar";
-	user_avatar_svg.classList.add('user_avatar_svg');
-	
-	// add svg to avatar and avatar to avatar container
-	user_avatar.appendChild(user_avatar_svg)
-	user_avatar_container.appendChild(user_avatar)
+	user_avatar_svg.classList.add('user_avatar_svg', 'object-cover', 'rounded-full');
 	
 	// add user chat to user chat container
 	user_chat_container.appendChild(user_chat_message)
 	
 	// add user avatar to user chat container
-	user_chat_container.appendChild(user_avatar_container)
+	user_chat_container.appendChild(user_avatar_svg)
 	
 	
 	// finally add this chat to the message container
@@ -890,71 +1012,91 @@ export function addUserChat(text) {
 
 // *************************************
 
-export function addBotChat(text, flag=false) {
+let j = 0;
+let txt = false
+let elem = false
+var speed = 50;
+
+function typeWriter() {
+  if (j < txt.length) {
+    elem.innerHTML += txt.charAt(j);
+    j++;
+    setTimeout(typeWriter, speed);
+  }
+}
+
+function addFlag(parent, child, flag){
+	if (flag){
+		parent.appendChild(child)
+		j = 0
+		elem = child
+		txt = flag
+		typeWriter()
+	}
+	
+}
+
+
+export function addBotChat(text=false, flag=false, flow_chat=false) {
+
+	/*set flow_chat= true if bot is messages are being sent in a flow*/
 	// function to add bot's chat in the message box
 	
 	
 	// bot chat container
-	const bot_chat_container = document.createElement('div')
-	bot_chat_container.classList.add('bot_chat_container')
-    	
-    	// bot chat message
+	let bot_chat_container = document.createElement('div')
+	bot_chat_container.classList.add('bot_chat_container', 'flex', 'justify-start')
+
+	// bot chat message
 	const bot_chat_message = document.createElement('div')
 	bot_chat_message.classList.add('bot_chat_message','text-base')
-    
-    if (text) {
-		bot_chat_message.textContent = text;
-    }
-	
-	// a flag message below original message to show limits or additional note related to the text
-	if (flag) {
-	const note = document.createElement('div')
-	note.classList.add('bot_chat_message_note')
-	note.textContent = flag;
-	
-	// add the note below the message
-	bot_chat_message.appendChild(note)
-	}
-	
 	
 	// message side triangle
 	const left_side = document.createElement('div')
 	left_side.classList.add('bot_chat_message_indicator')
 
-  	bot_chat_message.appendChild(left_side)
-  	
-	
-	// user avatar container
-	const bot_avatar_container = document.createElement('div')
-	bot_avatar_container.classList.add('bot_avatar_container')
-	
-	// user avatar
 	const bot_avatar = document.createElement('img')
-	bot_avatar.classList.add('bot_avatar')
-	//bot_avatar.src = "https://chatcv.net/wp-content/themes/twentytwentytwo/assets/images/botIcon.png";
+	bot_avatar.classList.add('bot_avatar', 'object-cover', 'rounded-full')
 	bot_avatar.src = "https://chatcv.net/wp-content/themes/twentytwentytwo/assets/images/chatbot.svg";
     	bot_avatar.alt = "bot avatar";
 	
-    // avatar svg
-	const bot_avatar_svg = document.createElement('img')
-	bot_avatar_svg.classList.add('user_avatar_svg');
-	//bot_avatar_svg.src = "https://chatcv.net/wp-content/themes/twentytwentytwo/assets/images/botIcon.png";
-    	bot_avatar_svg.src = "https://chatcv.net/wp-content/themes/twentytwentytwo/assets/images/chatbot.svg";
-	bot_avatar_svg.alt = "bot avatar";
+    	if (flow_chat && text) {
+    		bot_chat_message.classList.add('bot_chat_message_followup')
+    	}
+    	
+	// a flag message below original message to show limits or additional note related to the text
+    	let note = false;
+	if (flag) {
+		note = document.createElement('div')
+		note.classList.add('bot_chat_message_note')
+	}
+
+	bot_chat_message.appendChild(left_side)
+	// user avatar
+	// add bot avatar to bot chat container
+	if (!flow_chat){
+		bot_chat_container.appendChild(bot_avatar)
+	}
 	
-	// add svg to avatar and avatar to avatar container
-	bot_avatar_container.appendChild(bot_avatar)
-	
-	// add user avatar to bot chat container
-	bot_chat_container.appendChild(bot_avatar_container)
+	// finally add this chat to the message container
+	const message_container = document.querySelector(".chatbot-message-container");
 
 	// add user chat to bot chat container
 	bot_chat_container.appendChild(bot_chat_message)
-		
-	// finally add this chat to the message container
-	const message_container = document.getElementsByClassName("chatbot-message-container")[0];
+	
 	message_container.appendChild(bot_chat_container);
 	message_container.scrollTop = message_container.scrollHeight;
+	if (text){
+		j = 0
+		elem = bot_chat_message
+		txt = text
+		typeWriter()
+		setTimeout(addFlag,text.length*50, bot_chat_message, note, flag)
+		
+	} else if (!text && flag) {
+		addFlag(bot_chat_message, note, flag)
+	}
+	
 }
 
 
@@ -987,7 +1129,7 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 	
 	// options button container
 	const buttons_container = document.createElement('div');
-	buttons_container.classList.add("options-buttons-container", 'grid','gap-2','grid-cols-1',`md:grid-cols-${cols.split(" ").length}`, `lg:grid-cols-${cols.split(" ").length}`, `xl:grid-cols-${cols.split(" ").length}`, `2xl:grid-cols-${cols.split(" ").length}`);
+	buttons_container.classList.add("options-buttons-container", 'grid', 'auto-cols-auto', 'gap-2','grid-cols-1',`md:grid-cols-${cols.split(" ").length}`, `lg:grid-cols-${cols.split(" ").length}`, `xl:grid-cols-${cols.split(" ").length}`, `2xl:grid-cols-${cols.split(" ").length}`);
 	/*buttons_container.style.display = "grid";
 	buttons_container.style.gridTemplateColumns= cols;*/
 	
@@ -1006,6 +1148,7 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 				option.style.color= "#000";
 				
 			} else if (option.textContent=="Sair" || option.textContent=="Reiniciar" || option.textContent=="Fechar janela") {
+				Ask.edit = false;
 				name = "";
 				address = "";
 				email = "";
@@ -1040,6 +1183,7 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 					window.open("https://chatcv.net", "_self");
 
 				} else if (option.textContent=="Reiniciar") {
+					removeReview()
 					Ask.asked = "Vamos iniciar informando seu Nome Completo?";
 					addBotChat(Ask.asked);
 					createInput();
@@ -1049,20 +1193,21 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 				}
 				
 			} else if (option.textContent=="Continuar") {
+				Ask.edit = false;
 				if (name=="" && email=="") {
 					addBotChat("Desde que você selecionou 'Reiniciar', seus dados devem ser reinseridos.")
-					Ask.asked = "Qual seu nome completo?";
-					addBotChat(Ask.asked)
-					addBotChat("Obrigado!")
+					setTimeout(addBotChat,4000,Ask.asked,false,true)
+					setTimeout(addBotChat,8000,"Obrigado!",false,true)
 				} else {
 					window.open("https://mpago.la/1g1HCdD", "_blank");
 				}
 				
 			} else if (option.textContent=="Revisar") {
 				addReviewSection()
-				addBotChat("Continuar - vai levá-lo ao próximo passo.")
-				addBotChat("Sair - todos os seus dados serão perdidos.")
-				addBotChat("Reiniciar - começa uma nova conversa.")
+				Hide()
+				addBotChat(false, "Continuar - vai levá-lo ao próximo passo.")
+				setTimeout(addBotChat,4000,false,"Sair - todos os seus dados serão perdidos.",true)
+				setTimeout(addBotChat,8000,false,"Reiniciar - começa uma nova conversa.",true)
 				optionsContainer([["Continuar", "Reiniciar", "Sair"], false], [], "auto auto auto")
 				
 			} else if (option.textContent=="Baixar") {
@@ -1081,6 +1226,7 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 				optionsContainer([["sim", "não"], false], [], "auto auto")
 
 			} else if (option.textContent=="sim") {
+				option.backgroundColor = 'rgb(82, 227, 115)';
 				// if user said yes to add work history OR if user was asked to add more company
 				if (Ask.asked=='Gostaria de adicionar a seção HISTÓRICO PROFISSIONAL?' ||
 						Ask.asked=='Deseja adicionar outra empresa?'){
@@ -1119,11 +1265,6 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 					Ask.asked = 'Qual foi o ano de conclusão?'
 					addBotChat(Ask.asked)
 					createInput('month', false, false)
-					//var input_container = document.querySelector('.chatbot-input-container')
-				//	var input_replace = document.createElement('div')
-				//	input_replace.classList.add('form-input')
-				//	input_container.replaceChild(input_replace, input_container.childNodes[0])
-					//addMonthInput()
 
 					// if asked to confirm if the user is graduate
 				} else if (Ask.asked == 'Qual é a situação do seu diploma?') {
@@ -1134,8 +1275,7 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 					createInput()
 
 				// if asked to add another course type OR asked to add more other course types
-				} else if (Ask.asked=='Deseja adicionar curso na seção TREINAMENTOS E/OU ESPECIALIZAÇÕES?' ||
-							Ask.asked=='Deseja adicionar curso na seção TREINAMENTOS E/OU ESPECIALIZAÇÕES?'){
+				} else if (Ask.asked=='Deseja adicionar curso na seção TREINAMENTOS E/OU ESPECIALIZAÇÕES?'){
 					// Continuar to SECTION 7 here
 					createInput()
 					Ask.asked = 'Qual é o tipo de curso?'
@@ -1159,6 +1299,7 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 				}
 				
 			} else if (option.textContent=="não") {
+				option.backgroundColor = 'rgb(82, 227, 115)';
 				
 				/* if visitor does not want to Continuar to SECTION 5, will be Continuard to this section */
 				/* SECTION 6 initialized here only if replied no for section 5*/
@@ -1169,12 +1310,15 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 
 					localStorage.setItem('section5', JSON.stringify(section5));
 					
-					Ask.asked = "Vamos agora preencher seu HISTÓRICO ACADÊMICO/EDUCACIONAL."
-addBotChat(Ask.asked, " Obrigatório em todos currículos. Recomenda-se sempre iniciar pela mais alta formação, adicionando as outras de forma decrescente.");
-					// start SECTION 6, ask for year of degree completion
-					Ask.asked = 'Qual foi o ano de conclusão?'
-					addBotChat(Ask.asked)
-					createInput('month',false,false)
+					if (!Ask.edit) {
+						// start SECTION 6, ask for year of degree completion
+						Ask.asked = 'Qual foi o ano de conclusão?'
+						addBotChat("Vamos agora preencher seu HISTÓRICO ACADÊMICO/EDUCACIONAL.");
+						setTimeout(addBotChat,4000,Ask.asked,
+							" Obrigatório em todos currículos. Recomenda-se sempre iniciar pela mais alta formação, adicionando as outras de forma decrescente.", true);
+						createInput('month',false,false)
+					}
+					
 					
 				// if user was asked to add more responsibility
 				} else if (Ask.asked=='Gostaria de acrescentar mais uma responsabilidade?') {
@@ -1204,21 +1348,25 @@ addBotChat(Ask.asked, " Obrigatório em todos currículos. Recomenda-se sempre i
 					localStorage.setItem('section6', JSON.stringify(section6));
 
 					// Start SECTION 7 is initited here here
-					Ask.asked = 'Deseja adicionar curso na seção TREINAMENTOS E/OU ESPECIALIZAÇÕES?'
-					addBotChat(Ask.asked)
-					optionsContainer([["sim", "não"], false], [], "auto auto")
+					
+					if (!Ask.edit) {
+						Ask.asked = 'Deseja adicionar curso na seção TREINAMENTOS E/OU ESPECIALIZAÇÕES?'
+						addBotChat(Ask.asked)
+						optionsContainer([["sim", "não"], false], [], "auto auto")
+					}
 
 				// if user was asked to Continuar to SECTION 7 to add some other course type
 				// OR asked if wants to add more course of other type
-				} else if (Ask.asked=='Deseja adicionar curso na seção TREINAMENTOS E/OU ESPECIALIZAÇÕES?' ||
-							Ask.asked=='Deseja adicionar curso na seção TREINAMENTOS E/OU ESPECIALIZAÇÕES?'){
+				} else if (Ask.asked=='Deseja adicionar curso na seção TREINAMENTOS E/OU ESPECIALIZAÇÕES?'){
 
 					localStorage.setItem('section7', JSON.stringify(section7));
 
 					// Start SECTION 8 is initited here here
-					Ask.asked = 'Deseja adicionar proficiência em Idiomas?'
-					addBotChat(Ask.asked)
-					optionsContainer([["sim", "não"], false], [], "auto auto")
+					if (!Ask.edit) {
+						Ask.asked = 'Deseja adicionar proficiência em Idiomas?'
+						addBotChat(Ask.asked)
+						optionsContainer([["sim", "não"], false], [], "auto auto")
+					}
 
 				// if asked to add more language profieciency OR add another language
 				} else if (Ask.asked=='Deseja adicionar proficiência em Idiomas?' ||
@@ -1227,20 +1375,34 @@ addBotChat(Ask.asked, " Obrigatório em todos currículos. Recomenda-se sempre i
 					localStorage.setItem('section8', JSON.stringify(section8));
 
 					// Start SECTION 9 is initited here here
-					Ask.asked = 'Deseja preencher PRÊMIOS, BOLSAS, CERTIFICAÇÕES E LICENÇAS ?'
-					addBotChat(Ask.asked)
-					optionsContainer([["sim", "não"], false], [], "auto auto")
+					if (!Ask.edit) {
+						Ask.asked = 'Deseja preencher PRÊMIOS, BOLSAS, CERTIFICAÇÕES E LICENÇAS ?'
+						addBotChat(Ask.asked)
+						optionsContainer([["sim", "não"], false], [], "auto auto")
+					}
 
 				// if asked to add certificates OR another certificate
 				} else if (Ask.asked=='Deseja preencher PRÊMIOS, BOLSAS, CERTIFICAÇÕES E LICENÇAS ?' ||
 							Ask.asked=='Deseja adicionar outra bolsa, prêmio, certificado?'){
 
 					localStorage.setItem('section9', JSON.stringify(section9));
-
-					// ask how would like to proceed
-					addBotChat('Como você gostaria de proceder?')
-					// proceed to Review OR Continuar from here
-					optionsContainer([["Continuar", "Revisar"], false], [], "auto auto")
+					
+					if (!Ask.edit) {
+						// ask how would like to proceed
+						addBotChat('Como você gostaria de proceder?')
+						// proceed to Review OR Continuar from here
+						optionsContainer([["Continuar", "Revisar"], false], [], "auto auto")
+					}
+				}
+				
+				if(Ask.edit) {
+					removeInput()
+					addBotChat('Suas informações foram atualizadas.');
+					setTimeout(addBotChat,3000,"Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo.", true);
+					setTimeout(addBotChat,8000,false, "Continuar - vai levá-lo ao próximo passo.",true);
+					setTimeout(addBotChat,12000,false, "Sair - todos os seus dados serão perdidos.",true);
+					setTimeout(addBotChat,16000,false, "Reiniciar - começa uma nova conversa.", true);
+					optionsContainer([["Continuar", "Reiniciar", "Sair"], false], [], "auto auto auto")
 				}
 //["concuído", "concluído", "em curso"]
 			} else if (option.textContent=="concluído" || option.textContent=="concluído" || option.textContent=="em curso" ) {
@@ -1280,16 +1442,27 @@ addBotChat(Ask.asked, " Obrigatório em todos currículos. Recomenda-se sempre i
 
 		done_btn_container.textContent= "Done";
 		done_btn_container.onclick = () => {
+		
+			done_btn_container.style.backgroundColor= '#52e373';
+			done_btn_container.style.boxShadow= '0 5px 15px rgba(145, 92, 182, .5)';
+			done_btn_container.style.borderRadius= '0.375rem';
 
 			/* SECTION 2 is saved here and SECTION 3, Options SECTION, is initiated here */
 			if (Ask.asked=="section2") {
 				localStorage.setItem('section2', JSON.stringify(section2));
-				optionsContainer(Ask.section3, section3, "auto", about="CAPACIDADES E HABILIDADES", what_asked="section3", done=true, is_shuffle=true)
+				if (!Ask.edit) {
+					optionsContainer(Ask.section3, section3, "auto", about="CAPACIDADES E HABILIDADES", what_asked="section3", done=true, is_shuffle=true)
+					
+				}
 
 			/* SECTION 3 is saved here and SECTION 4, Options SECTION, is initiated here */
 			} else if (Ask.asked=="section3") {
 				localStorage.setItem('section3', JSON.stringify(section3));
-				optionsContainer(Ask.section4, section4, "auto auto auto", about="CONHECIMENTO DE FERRAMENTAS", what_asked="section4", done=true, is_shuffle=true)
+				if (!Ask.edit) {
+					optionsContainer(Ask.section4, section4, "auto auto auto", about="CONHECIMENTO DE FERRAMENTAS", what_asked="section4", done=true, is_shuffle=true)
+					
+				}
+				
 
 			/* SECTION 4 is saved here and SECTION 5, text input SECTION, is initiated here */
 			} else if (Ask.asked=="section4") {
@@ -1298,18 +1471,31 @@ addBotChat(Ask.asked, " Obrigatório em todos currículos. Recomenda-se sempre i
 			
 			/* SECTION 5 is initiated here and handled in createInput function*/
 				// ask if the user wants to add work history and go to the createInput function
-				Ask.asked = 'Gostaria de adicionar a seção HISTÓRICO PROFISSIONAL?'
-				addBotChat(Ask.asked)
-				optionsContainer([["sim", "não"], false], [], "auto auto")
+				
+				if (!Ask.edit) {
+					Ask.asked = 'Gostaria de adicionar a seção HISTÓRICO PROFISSIONAL?'
+					addBotChat(Ask.asked)
+					optionsContainer([["sim", "não"], false], [], "auto auto")
+				}
 			}
+			
+			if (Ask.edit) {
+				addBotChat('Suas informações foram atualizadas.');
+				setTimeout(addBotChat,3000,"Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo.", true);
+				setTimeout(addBotChat,8000,false, "Continuar - vai levá-lo ao próximo passo.",true);
+				setTimeout(addBotChat,12000,false, "Sair - todos os seus dados serão perdidos.",true);
+				setTimeout(addBotChat,16000,false, "Reiniciar - começa uma nova conversa.", true);
+					
+				optionsContainer([["Continuar", "Reiniciar", "Sair"], false], [], "auto auto auto")
+				}
 		}
-		buttons_container.appendChild(done_btn_container);
+		options_container.appendChild(done_btn_container);
 	}
 	
 	
 	const message_container = document.querySelector(".chatbot-message-container");
 	message_container.appendChild(options_container);
-	message_container.scrollTop = message_container.scrollHeight;
+	document.querySelectorAll(".bot_chat_message")[document.querySelectorAll(".bot_chat_message").length-1].scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
 	
 	
 	return options_container
@@ -1380,7 +1566,6 @@ export function viewTemplates(){
 		localStorage.setItem('email_content', Ask.email_content)
 		
 	}
-	0
 	
 	
 	// add templates to templates' container
