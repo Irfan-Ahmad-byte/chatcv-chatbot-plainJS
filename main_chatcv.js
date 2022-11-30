@@ -15,11 +15,7 @@ import { Welcome } from './flow/Welcome.js';
 
 function chatFlow() {
 	addChatBot();
-	var welcom_msgs = Welcome()
-	addBotChat(welcom_msgs[0])
-	setTimeout(addBotChat, 4000, welcom_msgs[1],false,true)
-	Ask.asked = "Vamos iniciar informando seu Nome Completo?";
-	setTimeout(addBotChat,8000,Ask.asked,false,true);
+	addBotChat([...Welcome(), "Vamos iniciar informando seu Nome Completo?", Ask.asked])
 }
 
 

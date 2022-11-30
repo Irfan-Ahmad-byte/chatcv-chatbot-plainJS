@@ -286,11 +286,11 @@ export function createInput(type=false, placeholder=false, name=false){
 						addBotChat(Ask.asked);
 					} else {
 						removeInput()
-						addBotChat('Suas informações foram atualizadas.');
-						setTimeout(addBotChat,3000,"Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo.", true);
-						setTimeout(addBotChat,8000,false, "Continuar - vai levá-lo ao próximo passo.",true);
-						setTimeout(addBotChat,12000,false, "Sair - todos os seus dados serão perdidos.",true);
-						setTimeout(addBotChat,16000,false, "Reiniciar - começa uma nova conversa.", true);
+						addBotChat(['Suas informações foram atualizadas.',
+							"Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo."]);
+						setTimeout(addBotChat, 12000, false,["Continuar - vai levá-lo ao próximo passo.",
+									"Sair - todos os seus dados serão perdidos.",
+									"Reiniciar - começa uma nova conversa."]);
 						
 						optionsContainer([["Continuar", "Reiniciar", "Sair"], false], [], "auto auto auto")
 					}
@@ -301,14 +301,14 @@ export function createInput(type=false, placeholder=false, name=false){
 					removeInput()
 					if (!Ask.edit) {
 						Ask.asked = "Pode também fornecer um e-mail para contato?"
-						addBotChat(Ask.asked, false, "Por favor usar o mesmo e-mail durante nossa conversa !!!");
+						addBotChat(Ask.asked, "Por favor usar o mesmo e-mail durante nossa conversa !!!");
 						createInput('email', 'seu email')
 					} else {
-						addBotChat('Suas informações foram atualizadas.');
-						setTimeout(addBotChat,3000,"Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo.", true);
-						setTimeout(addBotChat,8000,false, "Continuar - vai levá-lo ao próximo passo.",true);
-						setTimeout(addBotChat,12000,false, "Sair - todos os seus dados serão perdidos.",true);
-						setTimeout(addBotChat,16000,false, "Reiniciar - começa uma nova conversa.", true);
+						addBotChat(['Suas informações foram atualizadas.',
+							"Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo."]);
+						setTimeout(addBotChat, 12000, false,["Continuar - vai levá-lo ao próximo passo.",
+									"Sair - todos os seus dados serão perdidos.",
+									"Reiniciar - começa uma nova conversa."]);
 						
 						optionsContainer([["Continuar", "Reiniciar", "Sair"], false], [], "auto auto auto")
 					}
@@ -321,14 +321,14 @@ export function createInput(type=false, placeholder=false, name=false){
 						removeInput()
 						if (!Ask.edit) {
 							Ask.asked = "Pode fornecer um número de telefone para contato?"
-							addBotChat(Ask.asked,false, 'Favor usar somente números!!!');
+							addBotChat(Ask.asked, 'Favor usar somente números!!!');
 							createInput('tel', 'seu numero de telefone')
 						} else {
-							addBotChat('Suas informações foram atualizadas.');
-							setTimeout(addBotChat,3000,"Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo.", true);
-							setTimeout(addBotChat,8000,false, "Continuar - vai levá-lo ao próximo passo.",true);
-							setTimeout(addBotChat,12000,false, "Sair - todos os seus dados serão perdidos.",true);
-							setTimeout(addBotChat,16000,false, "Reiniciar - começa uma nova conversa.", true);
+							addBotChat(['Suas informações foram atualizadas.',
+							"Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo."]);
+							setTimeout(addBotChat, 12000, false,["Continuar - vai levá-lo ao próximo passo.",
+									"Sair - todos os seus dados serão perdidos.",
+									"Reiniciar - começa uma nova conversa."]);
 							
 							optionsContainer([["Continuar", "Reiniciar", "Sair"], false], [], "auto auto auto")
 						}
@@ -351,17 +351,17 @@ export function createInput(type=false, placeholder=false, name=false){
 							optionsContainer(Ask.section2, section2, "auto", "EXPERIÊNCIA", "section2", true, true)
 							
 						} else {
-							addBotChat('Suas informações foram atualizadas.');
-							setTimeout(addBotChat,3000,"Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo.", true);
-							setTimeout(addBotChat,8000,false, "Continuar - vai levá-lo ao próximo passo.",true);
-							setTimeout(addBotChat,12000,false, "Sair - todos os seus dados serão perdidos.",true);
-							setTimeout(addBotChat,16000,false, "Reiniciar - começa uma nova conversa.", true);
+							addBotChat(['Suas informações foram atualizadas.',
+							"Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo."]);
+							setTimeout(addBotChat, 12000, false,["Continuar - vai levá-lo ao próximo passo.",
+									"Sair - todos os seus dados serão perdidos.",
+									"Reiniciar - começa uma nova conversa."]);
 							optionsContainer([["Continuar", "Reiniciar", "Sair"], false], [], "auto auto auto")
 						}                 
 					
 					} else {
 						Ask.asked = "Por favor insira um número de telefone válido."
-						addBotChat(Ask.asked,false, 'Favor não usar símbolos');
+						addBotChat(Ask.asked,'Favor não usar símbolos');
 					}
 				}
                 
@@ -509,10 +509,10 @@ export function createInput(type=false, placeholder=false, name=false){
 					// ask the language proficiency
 					Ask.asked = 'Qual é a sua proficiência no idioma?'
 					addBotChat(Ask.asked)
-					setTimeout(addBotChat,4000,false, 'básico: não tem nível para desempenhar trabalho.',false)
-                    			setTimeout(addBotChat,8000,false,'intermediário: conduz conversação em diferentes situações e tem proficiência limitada para trabalhar.',true)
-                   	 		setTimeout(addBotChat,13000,false,'avançado: tem habilidade para conversas complexas, fala bem e escreve bem.',true)
-                    			setTimeout(addBotChat,18000,false,'proficiente/fluente: capacidade de fluir e dominar fala, leitura e escrita como nativo.',true)
+					setTimeout(addBotChat,4500,false, ['básico: não tem nível para desempenhar trabalho.',
+									'intermediário: conduz conversação em diferentes situações e tem proficiência limitada para trabalhar.',
+									'avançado: tem habilidade para conversas complexas, fala bem e escreve bem.',
+									'proficiente/fluente: capacidade de fluir e dominar fala, leitura e escrita como nativo.'])
 					optionsContainer([["básico", "intermediário", 'avançado', 'proficiente/fluente'], false], [], "auto auto auto auto")
                     			removeInput()
 	
@@ -1056,6 +1056,24 @@ export function addBotChat(text=false, flag=false) {
 		}
 	}
 	
+	// bot chat container
+	function BotChatContainer(){ 
+		this.bot_chat_container = document.createElement('div')
+		this.bot_chat_container.classList.add('bot_chat_container', 'flex', 'justify-start')
+	}
+
+	// bot chat message
+	const bot_chat_message = document.createElement('div')
+	bot_chat_message.classList.add('bot_chat_message','text-base')
+	
+	// message side triangle
+	const left_side = document.createElement('div')
+	left_side.classList.add('bot_chat_message_indicator')
+
+	const bot_avatar = document.createElement('img')
+	bot_avatar.classList.add('bot_avatar', 'object-cover', 'rounded-full')
+	bot_avatar.src = "https://chatcv.net/wp-content/themes/twentytwentytwo/assets/images/chatbot.svg";
+    	bot_avatar.alt = "bot avatar";
 	
 	/*
 	if text:
@@ -1110,58 +1128,68 @@ export function addBotChat(text=false, flag=false) {
 	
 	*/
 	
-	// bot chat container
-	let bot_chat_container = document.createElement('div')
-	bot_chat_container.classList.add('bot_chat_container', 'flex', 'justify-start')
-
-	// bot chat message
-	const bot_chat_message = document.createElement('div')
-	bot_chat_message.classList.add('bot_chat_message','text-base')
+	let msg_elements = []
+	if (text){
+		for (let ind in text_list){
+			msg_elements.push(bot_chat_message) //create a chat msg
+			msg_elements[ind].appendChild(left_side)
+			if (ind > 0){				
+				msg_elements[ind].classList.add('bot_chat_message', 'bot_chat_message_followup')
+			} else {
+				msg_elements[ind].classList.add('bot_chat_message')
+				msg_elements[ind].appendChild(bot_avatar)
+			}
+		}
+	}
 	
-	// message side triangle
-	const left_side = document.createElement('div')
-	left_side.classList.add('bot_chat_message_indicator')
-
-	const bot_avatar = document.createElement('img')
-	bot_avatar.classList.add('bot_avatar', 'object-cover', 'rounded-full')
-	bot_avatar.src = "https://chatcv.net/wp-content/themes/twentytwentytwo/assets/images/chatbot.svg";
-    	bot_avatar.alt = "bot avatar";
-	
-    	if (flow_chat && text) {
-    		bot_chat_message.classList.add('bot_chat_message_followup')
-    	}
-    	
-	// a flag message below original message to show limits or additional note related to the text
-    	let note = false;
-	if (flag) {
+	if (flag){
+		//create flag
 		note = document.createElement('div')
 		note.classList.add('bot_chat_message_note')
-	}
-
-	bot_chat_message.appendChild(left_side)
-	// user avatar
-	// add bot avatar to bot chat container
-	if (!flow_chat){
-		bot_chat_container.appendChild(bot_avatar)
+		if (text){
+			if (flag_list.length == text_list.length){
+				for (let msg in msg_elements){
+					msg_elements[msg].appendChild(note)
+				}
+			} else if (flag_list.length == 1){
+				msg_containers[msg_containers.length-1].add flag
+				}
+		} else {	
+			for (let fl in flag_list){
+				msg_elements.push(bot_chat_message) //create msg container
+				msg_elements[fl].appendChild(left_side)
+				if (index > 0){
+					msg_elements[fl].classList.add('bot_chat_message', 'bot_chat_message_followup')
+				} else {
+					msg_elements[fl].classList.add('bot_chat_message')
+					msg_elements[fl].appendChild(bot_avatar)
+				}
+			}
+		}
 	}
 	
-	// finally add this chat to the message container
+	
 	const message_container = document.querySelector(".chatbot-message-container");
-
-	// add user chat to bot chat container
-	bot_chat_container.appendChild(bot_chat_message)
 	
-	message_container.appendChild(bot_chat_container);
-	message_container.scrollTop = message_container.scrollHeight;
-	if (text){
-		j = 0
-		elem = bot_chat_message
-		txt = text
-		typeWriter()
-		setTimeout(addFlag,text.length*50, bot_chat_message, note, flag)
-		
-	} else if (!text && flag) {
-		addFlag(bot_chat_message, note, flag)
+	let timeout = 0
+	for (let item in msg_elements){
+		var container = new BotChatContainer() //create a chat container
+		container.bot_chat_container.appendChild(msg_elements[item]) //add msg_container to chat container
+		message_container.scrollTop = message_container.scrollHeight;   //scroll to height
+		if (text){
+			setTimeout(execute_typing, timeout, text_list[item], msg_elements[item])
+			timeout += text_list[item].length
+		}
+		if (flag){
+			if (flag_list.length = text_list.length){
+				setTimeout(execute_typing, timeout, flag_list[item], msg_elements[item].lastElementChild)
+				timeout += flag_list[item].length
+			} else if (flag_list.length == 1){
+				if (index == msg_elements.length -1){
+					setTimeout(execute_typing, timeout, flag_list[item], msg_elements[item].lastElementChild)
+				}
+			}
+		}
 	}
 	
 }
@@ -1262,9 +1290,8 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 			} else if (option.textContent=="Continuar") {
 				Ask.edit = false;
 				if (name=="" && email=="") {
-					addBotChat("Desde que você selecionou 'Reiniciar', seus dados devem ser reinseridos.")
-					setTimeout(addBotChat,4000,Ask.asked,false,true)
-					setTimeout(addBotChat,8000,"Obrigado!",false,true)
+					addBotChat(["Desde que você selecionou 'Reiniciar', seus dados devem ser reinseridos."
+							,Ask.asked, "Obrigado!"])
 				} else {
 					window.open("https://mpago.la/1g1HCdD", "_blank");
 				}
@@ -1272,9 +1299,10 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 			} else if (option.textContent=="Revisar") {
 				addReviewSection()
 				Hide()
-				addBotChat(false, "Continuar - vai levá-lo ao próximo passo.")
-				setTimeout(addBotChat,4000,false,"Sair - todos os seus dados serão perdidos.",true)
-				setTimeout(addBotChat,8000,false,"Reiniciar - começa uma nova conversa.",true)
+				addBotChat(false, ["Continuar - vai levá-lo ao próximo passo.",
+							, "Sair - todos os seus dados serão perdidos.",
+							, "Reiniciar - começa uma nova conversa.",
+							, ])
 				optionsContainer([["Continuar", "Reiniciar", "Sair"], false], [], "auto auto auto")
 				
 			} else if (option.textContent=="Baixar") {
@@ -1380,9 +1408,10 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 					if (!Ask.edit) {
 						// start SECTION 6, ask for year of degree completion
 						Ask.asked = 'Qual foi o ano de conclusão?'
-						addBotChat("Vamos agora preencher seu HISTÓRICO ACADÊMICO/EDUCACIONAL.");
-						setTimeout(addBotChat,4000,Ask.asked,
-							" Obrigatório em todos currículos. Recomenda-se sempre iniciar pela mais alta formação, adicionando as outras de forma decrescente.", true);
+						addBotChat(["Vamos agora preencher seu HISTÓRICO ACADÊMICO/EDUCACIONAL.",
+								, Ask.asked
+							   ]
+							," Obrigatório em todos currículos. Recomenda-se sempre iniciar pela mais alta formação, adicionando as outras de forma decrescente.");
 						createInput('month',false,false)
 					}
 					
@@ -1464,12 +1493,11 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 				
 				if(Ask.edit) {
 					removeInput()
-					addBotChat('Suas informações foram atualizadas.');
-					setTimeout(addBotChat,3000,"Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo.", true);
-					setTimeout(addBotChat,8000,false, "Continuar - vai levá-lo ao próximo passo.",true);
-					setTimeout(addBotChat,12000,false, "Sair - todos os seus dados serão perdidos.",true);
-					setTimeout(addBotChat,16000,false, "Reiniciar - começa uma nova conversa.", true);
-					optionsContainer([["Continuar", "Reiniciar", "Sair"], false], [], "auto auto auto")
+					addBotChat(['Suas informações foram atualizadas.',
+							"Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo."]);
+					setTimeout(addBotChat, 12000, false,["Continuar - vai levá-lo ao próximo passo.",
+									"Sair - todos os seus dados serão perdidos.",
+									"Reiniciar - começa uma nova conversa."]);
 				}
 //["concuído", "concluído", "em curso"]
 			} else if (option.textContent=="concluído" || option.textContent=="concluído" || option.textContent=="em curso" ) {
@@ -1547,11 +1575,11 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 			}
 			
 			if (Ask.edit) {
-				addBotChat('Suas informações foram atualizadas.');
-				setTimeout(addBotChat,3000,"Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo.", true);
-				setTimeout(addBotChat,8000,false, "Continuar - vai levá-lo ao próximo passo.",true);
-				setTimeout(addBotChat,12000,false, "Sair - todos os seus dados serão perdidos.",true);
-				setTimeout(addBotChat,16000,false, "Reiniciar - começa uma nova conversa.", true);
+				addBotChat(['Suas informações foram atualizadas.',
+							"Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo."]);
+				setTimeout(addBotChat, 12000, false,["Continuar - vai levá-lo ao próximo passo.",
+									"Sair - todos os seus dados serão perdidos.",
+									"Reiniciar - começa uma nova conversa."]);
 					
 				optionsContainer([["Continuar", "Reiniciar", "Sair"], false], [], "auto auto auto")
 				}
