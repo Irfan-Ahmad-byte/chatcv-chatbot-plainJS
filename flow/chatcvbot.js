@@ -1025,23 +1025,90 @@ function typeWriter() {
   }
 }
 
-function addFlag(parent, child, flag){
-	if (flag){
-		parent.appendChild(child)
-		j = 0
-		elem = child
-		txt = flag
-		typeWriter()
-	}
-	
+function execute_typing(txt_val, ele_val){
+	j = 0
+	txt = txt_val
+	ele = ele_val
+	typeWriter()
 }
 
 
-export function addBotChat(text=false, flag=false, flow_chat=false) {
+export function addBotChat(text=false, flag=false) {
 
-	/*set flow_chat= true if bot is messages are being sent in a flow*/
+	/*use either text or text_list*/
 	// function to add bot's chat in the message box
 	
+	if (flag){
+		let flag_list;
+		if (typeof flag === 'string'){
+			flag_list = [flag]
+		} else if (flag instanceof Array){
+			flag_list = flag
+		}
+	}
+	
+	if (text){
+		let text_list;
+		if (typeof text === 'string'){
+			text_list = [text]
+		} else if (text instanceof Array){
+			text_list = text
+		}
+	}
+	
+	
+	/*
+	if text:
+		for text in text_list:
+			create a chat msg
+			add msg indicator
+			if index of text > 0:				
+				add classes 'bot_chat_message bot_chat_message_followup' to the chat msgs
+			else:
+				add classes 'bot_chat_message' to the chat msgs
+				add bot logo
+			add each msg_container to a list
+			
+	if flag:
+		create flag
+		if text:
+			if flag_list.length == text_list.length:
+				for text in msg_container:
+					add flag to the msg_container
+			else if flag_list.length == 1:
+				msg_containers[msg_containers.length-1].add flag
+		else:	
+			for each flag in flag_list:
+				create msg container
+				add msg indicator
+				if index > 0:
+					add classes 'bot_chat_message bot_chat_message_followup' to the chat msgs
+				else:
+					add classes 'bot_chat_message' to the chat msgs
+					add bot logo
+				add each msg_container to a list
+				
+	get msg container of chatbot
+
+	timeout = 0
+	for each item in msg_container list:
+		create a chat container
+		add msg_container to chat container
+		scroll to height
+		if text:
+			setTimeout -> execute_typing(text_list[index], msg_container[index]), timeout
+		timeout += text_list[item].length		
+		if flag:
+			if flag_list.len = text_list.length:
+				setTimeout -> execute_typing(flag_list[index], msg_container[index].firstElementChild), timeout
+				timeout += flag_list[index].length
+			else if flag_list.len == 1:
+				if index == msg_container.len -1:
+					setTimeout -> execute_typing(flag_list[index], msg_container[index].firstElementChild), timeout
+			
+		
+	
+	*/
 	
 	// bot chat container
 	let bot_chat_container = document.createElement('div')
