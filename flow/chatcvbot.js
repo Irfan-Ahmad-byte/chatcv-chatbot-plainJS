@@ -1254,7 +1254,7 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 				option.style.backgroundColor= "#84a9af";
 				option.style.color= "#000";
 				
-			} else if (option.textContent=="Sair" || option.textContent=="Reiniciar") {
+			} else if (option.textContent=="Sair" || option.textContent=="Reiniciar" || option.textContent=="Terminar") {
 				Ask.edit = false;
 				name = "";
 				address = "";
@@ -1264,6 +1264,7 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 				section3 = [];
 				section4 = [];
 				section5 = {};
+				section5['company'] = {};
 				section6 = [];
 				section7 = [];
 				section8 = [];
@@ -1294,15 +1295,19 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 					Ask.asked = "Vamos iniciar informando seu Nome Completo?";
 					addBotChat(Ask.asked);
 					createInput();
-				}/* else if (option.textContent=="Fechar janela") {
-						window.open('','_parent','');
-						window.close();
-				}*/
+				} else if (option.textContent=="Fechar janela" || option.textContent=="Terminar") {
+					cvs = document.getElementsByClassName('cv-template')
+					cvs[0].remove()
+					cvs[1].remove()
+					cvs[2].remove()
+					/*window.open('','_parent','');
+					window.close();/*
+				}
 				
-			}  else if (option.textContent=="Fechar janela") {
+			}  /*else if (option.textContent=="Fechar janela" || option.textContent=="Terminar") {
 					window.open('','_parent','');
 					window.close();
-			} else if (option.textContent=="Continuar") {
+			}*/ else if (option.textContent=="Continuar") {
 				Ask.edit = false;
 				if (name=="" && email=="") {
 					addBotChat(["Desde que você selecionou 'Reiniciar', seus dados devem ser reinseridos.",
