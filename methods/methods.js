@@ -6,8 +6,9 @@ import { emailHandle } from '../flow/finalStep.js';
 
 // function to sending emails
 export function sendEmail(data){
-	axios.post('https://chatcvemail-fgyji.ondigitalocean.app/email/v1/send', data)
+	axios.post('https://chatcv-email-jh72q.ondigitalocean.app/email/v1/send', data=data)
 	.then(response => {
+		console.log('email response==========>: '+ response)
 		emailHandle(response)		
 	})
 }
@@ -18,11 +19,6 @@ export const current_url = () => {
 	return window.location.href;
 }
 
-// close current window
-export const windowClose = () => {
-	window.open('','_parent','');
-	window.close();
-}
 
 /// email validation
 export const ValidateEmail = (input) => {
@@ -79,7 +75,8 @@ export function shuffle(array) {
 
 // download CV
 export function downloadCV(content) {
-axios.request({url:'/mychatcv', method:'get',baseURL:'https://chatcvemail-fgyji.ondigitalocean.app',params:{CONTENT: content}, responseType:'blob'})
+axios.request({url:'/mychatcv', method:'get',baseURL:'https://chatcv-email-jh72q.ondigitalocean.app',params:{CONTENT: content},
+			headers: {'X-Requested-With': 'XMLHttpRequest'}, responseType:'blob'})
 	.then(response => {
     	let link = document.createElement('a');
 		link.download = 'MyChatCV.pdf';

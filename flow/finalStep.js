@@ -13,13 +13,14 @@ export function emailHandle(response){
 	
 	Ask.asked = response;
 	
-	if (response=="Your email has been sent"){
+	console.log(response)
+	
+	if (response['data']=="Your email has been sent"){
 		addBotChat("Seu currículo foi enviado para seu e-mail.")
-	} else if (response=='something went wrong') {
-		addBotChat('algo deu errado')
+		//Ask.email_content = false;
+		addBotChat("Obrigado por usar nosso serviço.")
+	} else if (response['data']=='something went wrong') {
+		addBotChat('Algo deu errado.')
 		optionsContainer([["Tente novamente"], false], [], "auto")
 	}
-	addBotChat("Pode também baixá-lo, clicando <Baixar>.")
-	addBotChat("Fechando esta janela seus dados são apagados.")
-	optionsContainer([["Fechar janela"], false], [], "auto")
 }

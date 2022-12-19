@@ -45,7 +45,7 @@ export const Template = () => {
 		doc += "<body id='email-template'><div style='height: 150px; background-color: #DDEDF0'></div><div style='padding: 30px 50px'>"
 		doc += `<h1 style='color:#595959;'>${name}</h1>`
 		doc += `
-		<div style='padding: 10px 0px; color:#595959;'>
+		<div style='padding: 10px 0px; color:#595959; font-size:12px;'>
 			<div><span>${address}</span></div>
 			<div><span>${email}</span></div>
 			<div><span>${phone}</span></div>
@@ -67,7 +67,7 @@ phrase -->*/
 		doc+= `
 		<div style='padding:  15px 0px;'>
 	<div style='padding: 5px 0px; color:#595959;'>EXPERIÊNCIA EM</div>
-	<div style='padding: 5px 0px; '>
+	<div style='padding: 5px 0px; font-size:11px;'>
 		
 		`
 			for (let info of section2){
@@ -91,7 +91,7 @@ phrase -->*/
 		doc+= `
 		<div style='padding:  15px 0px;'>
 	<div style='padding: 5px 0px; color:#595959;'>CAPACIDADES E HABILIDADES</div>
-	<div style='padding: 5px 0px; '>
+	<div style='padding: 5px 0px; font-size:11px;'>
 		
 		`
 			for (let info of section3){
@@ -115,7 +115,7 @@ phrase -->*/
 		doc+= `
 		<div style='padding:  15px 0px;'>
 	<div style='padding: 5px 0px;  ; color:#595959'>CONHECIMENTO DE FERRAMENTAS</div>
-	<table style='padding: 5px 0px; margin-left: 50px;'>
+	<table style='padding: 5px 0px; margin-left: 50px; font-size:11px;'>
 		
 		`	
 			let i=0;
@@ -144,12 +144,13 @@ HISTÓRICO PROFISSIONAL  #595959
 			  occupation
 			  responsibilities--> */
 		
-		if (Object.keys(section5).length>0) {
+		if (Object.keys(section5['company']).length>0) {
+			console.log(section5)
 		
 		doc+= `
 		<div style='padding:  15px 0px;'>
 	<div style='padding: 5px 0px;  ; color:#595959'>HISTÓRICO PROFISSIONAL</div>
-	<div style='padding: 5px 0px; '>
+	<div style='padding: 5px 0px; font-size:11px;'>
 		
 		`
 			let keys = Object.keys(section5['company'])
@@ -158,15 +159,14 @@ HISTÓRICO PROFISSIONAL  #595959
 					let occ_keys = Object.keys(section5['company'][info]['occupation'])
 					
 					for(let ok of occ_keys){
-						doc += "<div style='padding: 5px 0px; display:flex; justify-content:flex-around;'>"
-						doc += "<div>"
-						doc += `<span>${section5['company'][info]['occupation'][ok]['name']}</span>`
-						doc += "<span><ul>"
-						doc += `<li>${section5['company'][info]['name']}</li>`
-						doc += `<li>${section5['company'][info]['occupation'][ok]['roles']}</li>`
-						doc += "</ul></span></div>"
-						doc += `<div><span>${section5['company'][info]['occupation'][ok]['begin']} — ${section5['company'][info]['occupation'][ok]['end']}</span></div>`
+						doc += "<div><div style='padding: 5px 0px; display:flex; justify-content: space-between;'>"
+						doc += `<span>${section5['company'][info]['occupation'][ok]['begin']} — ${section5['company'][info]['occupation'][ok]['end']}</span>`
+						doc += `<span>${section5['company'][info]['name']}</span>`
 						doc += "</div>"
+						doc += `<div><div><span style='font-weight:bold;'>${section5['company'][info]['occupation'][ok]['name']}</span></div>`
+						doc += `<div><span><ul><li>${section5['company'][info]['occupation'][ok]['roles']}</li>`
+						doc += "</ul></span></div></div>"
+						doc += `</div>`
 					}
 				}
 				doc += "</div></div>"
@@ -188,13 +188,13 @@ HISTÓRICO PROFISSIONAL  #595959
 			doc+= `
 			<div style='padding:  15px 0px;'>
 		<div style='padding: 5px 0px;  ; color:#595959'>HISTÓRICO ACADÊMICO E/OU EDUCACIONAL</div>
-		<div style='padding: 5px 0px; '>
+		<div style='padding: 5px 0px; font-size:11px;'>
 		
 			`
 			for (let info of section6){
 			/*year, name intitutuo, re you graduate, location*/
-				doc += `<div style='padding: 5px 0px;'><span style='margin-left: 50px;'>- ${info[1]}, ${info[2]}, ${info[3]}</span>`
-				doc += `<span>, ${info[0]}</span></div>`
+				doc += `<div style='padding: 5px auto;'><span>- ${info[0]}:</span>`
+				doc += `<div style='padding: 5px auto;'><span style='margin-left: 50px;'> ${info[1]}, ${info[2]}, ${info[3]}</span></div></div>`
 			}
 			doc += '</div></div>'
 			
@@ -215,13 +215,13 @@ HISTÓRICO PROFISSIONAL  #595959
 			doc+= `
 			<div style='padding:  15px 0px;'>
 	<div style='padding: 5px 0px;  ; color:#595959'>TREINAMENTOS E/OU ESPECIALIZAÇÕES</div>
-	<div style='padding: 5px 0px; '>
+	<div style='padding: 5px 0px; font-size:11px;'>
 		
 			`
 			for (let info of section7){
 			/*type, year, name intitutuo, location*/
-				doc += `<div style='padding: 5px 0px;'><span style='margin-left: 50px;'>- ${info[2]}, ${info[0]}, ${info[3]}</span>`
-				doc += `<span>${info[1]}</span></div>`
+				doc += `<div style='padding: 5px auto;'><span>- ${info[1]}:</span>`
+				doc += `<div style='padding: 5px auto;'><span style='margin-left: 50px;'> ${info[2]}, ${info[0]}, ${info[3]}</span></div></div>`
 			}
 			doc += '</div></div>'
 			
@@ -241,14 +241,14 @@ HISTÓRICO PROFISSIONAL  #595959
 		
 			doc+= `
 			<div style='padding:  15px 0px;'>
-	<div style='padding: 5px 0px;  ; color:#595959'>POFICIÊNCIA EM IDIOMAS</div>
-	<div style='padding: 5px 0px;'>
+	<div style='padding: 5px 0px;  ; color:#595959'>PROFICIÊNCIA EM IDIOMAS</div>
+	<div style='padding: 5px 0px; font-size:11px;'>
 		
 			`
 			for (let info of section8){
 			/*language, proficiency*/
-				doc += `<div style='padding: 5px 0px; display:flex; justify-content: space-between;'><span>- ${info[0]}:</span>`
-				doc += `<span style='margin-left: 50px;'>${info[1]}</span></div>`
+				doc += `<div style='padding: 5px auto;'><span>- ${info[0]}:</span>`
+				doc += `<span style='margin-left: 50px;'> ${info[1]}</span></div>`
 			}
 			doc += '</div></div>'
 			
@@ -271,13 +271,13 @@ HISTÓRICO PROFISSIONAL  #595959
 			doc+= `
 			<div style='padding:  15px 0px;'>
 	<div style='padding: 5px 0px;  ; color:#595959'>PRÊMIOS, BOLSAS, CERTIFICAÇÕES E LICENÇAS</div>
-	<div style='padding: 5px 0px; '>
+	<div style='padding: 5px 0px; font-size:11px;'>
 		
 			`
 			for (let info of section9){
 			/*title, name of insti, location, mm/yyyy of cert, */
-				doc += `<div style='padding: 5px 0px;'><span style='margin-left: 50px;'>- ${info[0]}, ${info[1]}, ${info[2]}</span>`
-				doc += `<span>${info[3]}</span></div>`
+				doc += `<div style='padding: 5px auto;'><span>- ${info[3]}:</span>`
+				doc += `<div style='padding: 5px auto;'><span style='margin-left: 50px;'> ${info[0]}, ${info[1]}, ${info[2]}</span></div></div>`
 			}
 			doc += '</div></div>'
 			

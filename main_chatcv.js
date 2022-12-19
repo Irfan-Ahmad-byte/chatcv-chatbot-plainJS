@@ -6,7 +6,7 @@ document.body.style.boxSizing = "border-box";
 
 
 import { addChatBot, createInput, botButton, addUserChat, Ask, addBotChat, optionsContainer, removeInput, viewTemplates } from './flow/chatcvbot.js';
-import { sendEmail, current_url, windowClose, ValidateEmail, ValidatePhone, shuffle, } from './methods/methods.js';
+import { sendEmail, current_url, ValidateEmail, ValidatePhone, shuffle, } from './methods/methods.js';
 import { Welcome } from './flow/Welcome.js';
 
 
@@ -15,7 +15,8 @@ import { Welcome } from './flow/Welcome.js';
 
 function chatFlow() {
 	addChatBot();
-	addBotChat([...Welcome(), "Vamos iniciar informando seu Nome Completo?", Ask.asked])
+	Ask.asked = "Vamos iniciar informando seu Nome Completo?";
+	addBotChat([...Welcome(), Ask.asked], false)
 }
 
 

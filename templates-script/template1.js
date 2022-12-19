@@ -51,7 +51,7 @@ export const Template = () => {
 	Email:  #595959
 	Telefone:  #595959 */
 		doc += `
-		<div style='padding: 15px 0px; color:#595959;'>
+		<div style='padding: 15px 0px; color:#595959;font-size:12px;'>
 			<div><span>${address}</span></div>
 			<div><span>${email}</span></div>
 			<div><span>${phone}</span></div>
@@ -76,7 +76,7 @@ phrase -->*/
 		
 		`
 			for (let info of section2){
-				doc += `<div style='padding: 5px 0px;'>${info}</div>`
+				doc += `<div style='padding: 5px 0px; font-size:11px;'>${info}</div>`
 			}
 		doc += '</div></div>'
 			
@@ -99,7 +99,7 @@ phrase -->*/
 		
 		`
 			for (let info of section3){
-				doc += `<div style='padding: 5px 0px;'>${info}</div>`
+				doc += `<div style='padding: 5px 0px; font-size:11px;'>${info}</div>`
 			}
 		doc += '</div></div>'
 			
@@ -119,7 +119,7 @@ phrase -->*/
 		doc+= `
 		<div style='padding:  15px 0px;'>
 	<div style='padding: 5px 0px;  ; color:#595959'>CONHECIMENTO DE FERRAMENTAS</div>
-	<table style='padding: 5px 0px; margin-left: 50px;'>
+	<table style='padding: 5px 0px; margin-left: 50px; font-size:11px;'>
 		
 		`	
 			let i=0;
@@ -148,12 +148,12 @@ HISTÓRICO PROFISSIONAL  #595959
 			  occupation
 			  responsibilities--> */
 		
-		if (Object.keys(section5).length>0) {
-		
+		if (Object.keys(section5['company']).length>0) {
+			console.log(section5)
 		doc+= `
 		<div style='padding:  15px 0px;'>
 	<div style='padding: 5px 0px;  ; color:#595959'>HISTÓRICO PROFISSIONAL</div>
-	<div style='padding: 5px 0px; '>
+	<div style='padding: 5px 0px; font-size:11px;'>
 		
 		`
 			let keys = Object.keys(section5['company'])
@@ -191,13 +191,13 @@ HISTÓRICO PROFISSIONAL  #595959
 			doc+= `
 			<div style='padding:  15px 0px;'>
 		<div style='padding: 5px 0px;  ; color:#595959'>HISTÓRICO ACADÊMICO E/OU EDUCACIONAL</div>
-		<div style='padding: 5px 0px; '>
+		<div style='padding: 5px 0px; font-size:11px;'>
 		
 			`
 			for (let info of section6){
 			/*year, name intitutuo, re you graduate, location*/
-				doc += `<div style='padding: 5px 0px;'><span>- ${info[0]}:</span>`
-				doc += `<span style='margin-left: 50px;'>${info[1]}, ${info[2]}, ${info[3]}</span></div>`
+				doc += `<div style='padding: 5px auto;'><span>- ${info[0]}:</span>`
+				doc += `<div style='padding: 5px auto;'><span style='margin-left: 50px;'> ${info[1]}, ${info[2]}, ${info[3]}</span></div></div>`
 			}
 			doc += '</div></div>'
 			
@@ -218,13 +218,13 @@ HISTÓRICO PROFISSIONAL  #595959
 			doc+= `
 			<div style='padding:  15px 0px;'>
 	<div style='padding: 5px 0px;  ; color:#595959'>TREINAMENTOS E/OU ESPECIALIZAÇÕES</div>
-	<div style='padding: 5px 0px; '>
+	<div style='padding: 5px 0px; font-size:11px;'>
 		
 			`
 			for (let info of section7){
 			/*type, year, name intitutuo, location*/
-				doc += `<div style='padding: 5px 0px;'><span>- ${info[1]}:</span>`
-				doc += `<span style='margin-left: 50px;'>${info[0]}, ${info[2]}, ${info[3]}</span></div>`
+				doc += `<div style='padding: 5px auto;'><span>- ${info[1]}:</span>`
+				doc += `<div style='padding: 5px auto;'><span style='margin-left: 50px;'> ${info[0]}, ${info[2]}, ${info[3]}</span></div></div>`
 			}
 			doc += '</div></div>'
 			
@@ -243,14 +243,14 @@ HISTÓRICO PROFISSIONAL  #595959
 		
 			doc+= `
 			<div style='padding:  15px 0px;'>
-	<div style='padding: 5px 0px;  ; color:#595959'>POFICIÊNCIA EM IDIOMAS</div>
-	<div style='padding: 5px 0px; '>
+	<div style='padding: 5px 0px;  ; color:#595959'>PROFICIÊNCIA EM IDIOMAS</div>
+	<div style='padding: 5px 0px; font-size:11px;'>
 		
 			`
 			for (let info of section8){
 			/*language, proficiency*/
-				doc += `<div style='padding: 5px 0px;'><span>- ${info[0]}:</span>`
-				doc += `<span style='margin-left: 50px;'>${info[1]}</span></div>`
+				doc += `<div style='padding: 5px auto;'><span>- ${info[0]}:</span>`
+				doc += `<span style='margin-left: 50px;'> ${info[1]}</span></div>`
 			}
 			doc += '</div></div>'
 			
@@ -272,13 +272,13 @@ HISTÓRICO PROFISSIONAL  #595959
 			doc+= `
 			<div style='padding:  15px 0px;'>
 	<div style='padding: 5px 0px;  ; color:#595959'>PRÊMIOS, BOLSAS, CERTIFICAÇÕES E LICENÇAS</div>
-	<div style='padding: 5px 0px; '>
+	<div style='padding: 5px 0px; font-size:11px;'>
 		
 			`
 			for (let info of section9){
 			/*title, name of insti, location, mm/yyyy of cert, */
-				doc += `<div style='padding: 5px 0px;'><span>- ${info[3]}:</span>`
-				doc += `<span style='margin-left: 50px;'>${info[0]}, ${info[1]}, ${info[2]}</span></div>`
+				doc += `<div style='padding: 5px auto;'><span>- ${info[3]}:</span>`
+				doc += `<div style='padding: 5px auto;'><span style='margin-left: 50px;'> ${info[0]}, ${info[1]}, ${info[2]}</span></div></div>`
 			}
 			doc += '</div></div>'
 			

@@ -264,7 +264,7 @@ this css file contains styles for chatcv bot
 	z-index: 100000000000000000000;
 	box-shadow: 0.5rem 0.5rem #1f3646, -0.5rem -0.5rem #fff;
 	border-radius: 0.375rem;
-	height: 75%;
+	height: auto;
 	max-height: 75%;
 	overflow: auto;
 	/*right: 40px;
@@ -318,6 +318,17 @@ this css file contains styles for chatcv bot
 	.elements-right-options {
 		border-left: none;
 		border-top: 5px solid #84a9af;
+	}
+	.calendar{
+		margin-left : 0;
+	}
+}
+@media (max-width: 350px) {
+	.date-months{
+		margin-right : 0;
+	}
+	.month-years{
+		padding: 5px 25px;
 	}
 }
 

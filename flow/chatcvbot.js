@@ -1,6 +1,13 @@
 
-import { sendEmail, current_url, windowClose, ValidateEmail, ValidatePhone, shuffle, downloadCV, } from '../methods/methods.js';
+import { sendEmail, current_url, ValidateEmail, ValidatePhone, shuffle, downloadCV, } from '../methods/methods.js';
 import { createTemplate } from '../templates-script/createTemplates.js';
+
+
+// close current window
+export const windowClose = () => {
+	window.open('','_parent','');
+	window.close();
+}
 
 // =======================================================================================
 //    ****************************  DATA variable Definitions  ***********************
@@ -56,7 +63,7 @@ export function addMonthInput(){
 		let input = document.querySelector('.form-input')
 		let mnth = document.createElement('select')
 		mnth.setAttribute("name",name)
-		mnth.classList.add('calendar','date-months')
+		mnth.classList.add('date-months')
 	
 		input.appendChild(mnth)
 		for (let mn of pt_months) {
@@ -68,7 +75,7 @@ export function addMonthInput(){
 		
 		let years = document.createElement('select')
 		years.setAttribute("name",name)
-		years.classList.add('calendar','month-years')
+		years.classList.add('month-years')
 		
 		input.appendChild(years)
 		let pt_years = [];
@@ -147,8 +154,6 @@ export function removeInput(){
  The following function handles all the text input based sections i.e. SECTION 1, SECTION 5- SECTION 9.
  In future if want to add more text input based sections, they will come in here. But a relative
  reference will have to be given
-
-
  If a SECTION contains Options and follows/comes after a text input SECTION, then that SECTION will be
  initialized here. Similarly, if a text input SECTION follows/comes after an Options SECTION, then the
  text input section will be initialized in the optionsContainer function.
@@ -207,13 +212,7 @@ export function createInput(type=false, placeholder=false, name=false){
 	if (type=="month"){
 		let mnth = document.createElement('select')
 		mnth.setAttribute("name",name)
-		mnth.classList.add('date-months')
-		mnth.style.padding = '5px 10px';
-		mnth.style.marginLeft = '10px';
-		mnth.style.marginRight = '10px';
-		mnth.style.backgroundColor = '#fff';
-		mnth.style.border = 'none';
-		mnth.style.outline = 'none';
+		mnth.classList.add('calendar','date-months')
 		input.appendChild(mnth)
 		for (let mn of pt_months) {
 			let month = document.createElement('option')
@@ -224,13 +223,7 @@ export function createInput(type=false, placeholder=false, name=false){
 		
 		let years = document.createElement('select')
 		years.setAttribute("name",name)
-		years.classList.add('month-years')
-		years.style.padding = '5px 10px';
-		years.style.marginLeft = '10px';
-		mnth.style.marginRight = '10px';
-		years.style.backgroundColor = '#fff';
-		years.style.border = 'none';
-		years.style.outline = 'none';
+		years.classList.add('calendar','month-years')
 		
 		input.appendChild(years)
 		let pt_years = [];
@@ -286,11 +279,11 @@ export function createInput(type=false, placeholder=false, name=false){
 						addBotChat(Ask.asked);
 					} else {
 						removeInput()
-						addBotChat(['Suas informações foram atualizadas.',
-							"Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo."]);
-						setTimeout(addBotChat, 12000, false,["Continuar - vai levá-lo ao próximo passo.",
-									"Sair - todos os seus dados serão perdidos.",
-									"Reiniciar - começa uma nova conversa."]);
+						addBotChat('Suas informações foram atualizadas.');
+						addBotChat(false, ["Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo.",
+						"Continuar - vai levá-lo ao próximo passo.",
+						"Sair - todos os seus dados serão perdidos.",
+						"Reiniciar - começa uma nova conversa."]);
 						
 						optionsContainer([["Continuar", "Reiniciar", "Sair"], false], [], "auto auto auto")
 					}
@@ -304,11 +297,11 @@ export function createInput(type=false, placeholder=false, name=false){
 						addBotChat(Ask.asked, "Por favor usar o mesmo e-mail durante nossa conversa !!!");
 						createInput('email', 'seu email')
 					} else {
-						addBotChat(['Suas informações foram atualizadas.',
-							"Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo."]);
-						setTimeout(addBotChat, 12000, false,["Continuar - vai levá-lo ao próximo passo.",
-									"Sair - todos os seus dados serão perdidos.",
-									"Reiniciar - começa uma nova conversa."]);
+						addBotChat('Suas informações foram atualizadas.');
+						addBotChat(false, ["Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo.",
+						"Continuar - vai levá-lo ao próximo passo.",
+						"Sair - todos os seus dados serão perdidos.",
+						"Reiniciar - começa uma nova conversa."]);
 						
 						optionsContainer([["Continuar", "Reiniciar", "Sair"], false], [], "auto auto auto")
 					}
@@ -324,12 +317,12 @@ export function createInput(type=false, placeholder=false, name=false){
 							addBotChat(Ask.asked, 'Favor usar somente números!!!');
 							createInput('tel', 'seu numero de telefone')
 						} else {
-							addBotChat(['Suas informações foram atualizadas.',
-							"Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo."]);
-							setTimeout(addBotChat, 12000, false,["Continuar - vai levá-lo ao próximo passo.",
-									"Sair - todos os seus dados serão perdidos.",
-									"Reiniciar - começa uma nova conversa."]);
-							
+							addBotChat('Suas informações foram atualizadas.');
+							addBotChat(false, ["Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo.",
+							"Continuar - vai levá-lo ao próximo passo.",
+							"Sair - todos os seus dados serão perdidos.",
+							"Reiniciar - começa uma nova conversa."]);
+						
 							optionsContainer([["Continuar", "Reiniciar", "Sair"], false], [], "auto auto auto")
 						}
 						
@@ -351,17 +344,18 @@ export function createInput(type=false, placeholder=false, name=false){
 							optionsContainer(Ask.section2, section2, "auto", "EXPERIÊNCIA", "section2", true, true)
 							
 						} else {
-							addBotChat(['Suas informações foram atualizadas.',
-							"Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo."]);
-							setTimeout(addBotChat, 12000, false,["Continuar - vai levá-lo ao próximo passo.",
-									"Sair - todos os seus dados serão perdidos.",
-									"Reiniciar - começa uma nova conversa."]);
+							addBotChat('Suas informações foram atualizadas.');
+							addBotChat(false, ["Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo.",
+							"Continuar - vai levá-lo ao próximo passo.",
+							"Sair - todos os seus dados serão perdidos.",
+							"Reiniciar - começa uma nova conversa."]);
+						
 							optionsContainer([["Continuar", "Reiniciar", "Sair"], false], [], "auto auto auto")
-						}                 
+					}                 
 					
 					} else {
 						Ask.asked = "Por favor insira um número de telefone válido."
-						addBotChat(Ask.asked,'Favor não usar símbolos');
+						addBotChat(Ask.asked,false, 'Favor não usar símbolos');
 					}
 				}
                 
@@ -509,10 +503,11 @@ export function createInput(type=false, placeholder=false, name=false){
 					// ask the language proficiency
 					Ask.asked = 'Qual é a sua proficiência no idioma?'
 					addBotChat(Ask.asked)
-					setTimeout(addBotChat,4500,false, ['básico: não tem nível para desempenhar trabalho.',
-									'intermediário: conduz conversação em diferentes situações e tem proficiência limitada para trabalhar.',
-									'avançado: tem habilidade para conversas complexas, fala bem e escreve bem.',
-									'proficiente/fluente: capacidade de fluir e dominar fala, leitura e escrita como nativo.'])
+					addBotChat(false,['básico: não tem nível para desempenhar trabalho.',
+							'intermediário: conduz conversação em diferentes situações e tem proficiência limitada para trabalhar.',
+							'avançado: tem habilidade para conversas complexas, fala bem e escreve bem.',
+							'proficiente/fluente: capacidade de fluir e dominar fala, leitura e escrita como nativo.'])
+                    			
 					optionsContainer([["básico", "intermediário", 'avançado', 'proficiente/fluente'], false], [], "auto auto auto auto")
                     			removeInput()
 	
@@ -600,10 +595,6 @@ export function botButton() {
 	svg.alt = "chatbot icon";
 	svg.classList.add('bot-btn-icon', 'object-cover', 'object-cover', 'rounded-full', 'p-3.5', 'h-16', 'w-16', 'bottom-12', 'md:bottom-6','lg:bottom-6','xl:bottom-6', '2xl:bottom-6', 'right-3.5')
 
-/*	const bot_btn = document.createElement('button')
-	bot_btn.classList.add('review-container')
-	bot_btn.setAttribute("id","bot-btn");
-*/
 	svg.onclick = ()=> {
 		const bot_block = document.getElementById("chat-bot");
 		if (bot_block) {
@@ -620,9 +611,7 @@ export function botButton() {
 	// insert bot container into body and btn and chat container into container
 
 	//document.body.appendChild(bot_container);
-	document.body.appendChild(svg);	
-		// insert svg into image
-	//bot_btn.appendChild(svg);
+	document.body.appendChild(svg);
 }
 
 
@@ -734,6 +723,7 @@ export function addReviewSection() {
 			localStorage.removeItem('section4');
 			optionsContainer(Ask.section4, section4, "auto auto auto", "CONHECIMENTO DE FERRAMENTAS", false, true, true)
 		} else if (Ask.edit=="section5") {
+			section5['company']={}
 			localStorage.removeItem('section5');
 			Ask.asked = "Qual o nome da empresa ou empregador? Citar mais recente para mais antiga."
                    	addBotChat(Ask.asked)
@@ -1012,7 +1002,10 @@ export function addUserChat(text) {
 
 // *************************************
 
-let j = 0;
+
+
+// typing effect
+/*let j = 0;
 let txt = false
 let elem = false
 var speed = 50;
@@ -1025,42 +1018,27 @@ function typeWriter() {
   }
 }
 
-function execute_typing(txt_val, ele_val){
-	j = 0
-	txt = txt_val
-	ele = ele_val
-	typeWriter()
+function addFlag(parent, child, flag){
+	if (flag){
+		parent.appendChild(child)
+		j = 0
+		elem = child
+		txt = flag
+		typeWriter()
+	}
+	
 }
 
 
-export function addBotChat(text=false, flag=false) {
+export function addBotChat(text=false, flag=false, flow_chat=false) {*/
 
-	/*use either text or text_list*/
+	/*set flow_chat= true if bot is messages are being sent in a flow*/
 	// function to add bot's chat in the message box
 	
-	if (flag){
-		let flag_list;
-		if (typeof flag === 'string'){
-			flag_list = [flag]
-		} else if (flag instanceof Array){
-			flag_list = flag
-		}
-	}
 	
-	if (text){
-		let text_list;
-		if (typeof text === 'string'){
-			text_list = [text]
-		} else if (text instanceof Array){
-			text_list = text
-		}
-	}
-	
-	// bot chat container
-	function BotChatContainer(){ 
-		this.bot_chat_container = document.createElement('div')
-		this.bot_chat_container.classList.add('bot_chat_container', 'flex', 'justify-start')
-	}
+/*	// bot chat container
+	let bot_chat_container = document.createElement('div')
+	bot_chat_container.classList.add('bot_chat_container', 'flex', 'justify-start')
 
 	// bot chat message
 	const bot_chat_message = document.createElement('div')
@@ -1075,123 +1053,156 @@ export function addBotChat(text=false, flag=false) {
 	bot_avatar.src = "https://chatcv.net/wp-content/themes/twentytwentytwo/assets/images/chatbot.svg";
     	bot_avatar.alt = "bot avatar";
 	
-	/*
-	if text:
-		for text in text_list:
-			create a chat msg
-			add msg indicator
-			if index of text > 0:				
-				add classes 'bot_chat_message bot_chat_message_followup' to the chat msgs
-			else:
-				add classes 'bot_chat_message' to the chat msgs
-				add bot logo
-			add each msg_container to a list
-			
-	if flag:
-		create flag
-		if text:
-			if flag_list.length == text_list.length:
-				for text in msg_container:
-					add flag to the msg_container
-			else if flag_list.length == 1:
-				msg_containers[msg_containers.length-1].add flag
-		else:	
-			for each flag in flag_list:
-				create msg container
-				add msg indicator
-				if index > 0:
-					add classes 'bot_chat_message bot_chat_message_followup' to the chat msgs
-				else:
-					add classes 'bot_chat_message' to the chat msgs
-					add bot logo
-				add each msg_container to a list
-				
-	get msg container of chatbot
-
-	timeout = 0
-	for each item in msg_container list:
-		create a chat container
-		add msg_container to chat container
-		scroll to height
-		if text:
-			setTimeout -> execute_typing(text_list[index], msg_container[index]), timeout
-		timeout += text_list[item].length		
-		if flag:
-			if flag_list.len = text_list.length:
-				setTimeout -> execute_typing(flag_list[index], msg_container[index].firstElementChild), timeout
-				timeout += flag_list[index].length
-			else if flag_list.len == 1:
-				if index == msg_container.len -1:
-					setTimeout -> execute_typing(flag_list[index], msg_container[index].firstElementChild), timeout
-			
-		
-	
-	*/
-	
-	let msg_elements = []
-	if (text){
-		for (let ind in text_list){
-			msg_elements.push(bot_chat_message) //create a chat msg
-			msg_elements[ind].appendChild(left_side)
-			if (ind > 0){				
-				msg_elements[ind].classList.add('bot_chat_message', 'bot_chat_message_followup')
-			} else {
-				msg_elements[ind].classList.add('bot_chat_message')
-				msg_elements[ind].appendChild(bot_avatar)
-			}
-		}
-	}
-	
-	if (flag){
-		//create flag
+    	if (flow_chat) {
+    		bot_chat_message.classList.add('bot_chat_message_followup')
+    	}
+    	
+	// a flag message below original message to show limits or additional note related to the text
+    	let note = false;
+	if (flag) {
 		note = document.createElement('div')
 		note.classList.add('bot_chat_message_note')
-		if (text){
-			if (flag_list.length == text_list.length){
-				for (let msg in msg_elements){
-					msg_elements[msg].appendChild(note)
-				}
-			} else if (flag_list.length == 1){
-				msg_containers[msg_containers.length-1].add flag
-				}
-		} else {	
-			for (let fl in flag_list){
-				msg_elements.push(bot_chat_message) //create msg container
-				msg_elements[fl].appendChild(left_side)
-				if (index > 0){
-					msg_elements[fl].classList.add('bot_chat_message', 'bot_chat_message_followup')
-				} else {
-					msg_elements[fl].classList.add('bot_chat_message')
-					msg_elements[fl].appendChild(bot_avatar)
-				}
-			}
-		}
+	}
+
+	bot_chat_message.appendChild(left_side)
+	// user avatar
+	// add bot avatar to bot chat container
+	if (!flow_chat){
+		bot_chat_container.appendChild(bot_avatar)
 	}
 	
-	
+	// finally add this chat to the message container
 	const message_container = document.querySelector(".chatbot-message-container");
+
+	// add user chat to bot chat container
+	bot_chat_container.appendChild(bot_chat_message)
 	
-	let timeout = 0
-	for (let item in msg_elements){
-		var container = new BotChatContainer() //create a chat container
-		container.bot_chat_container.appendChild(msg_elements[item]) //add msg_container to chat container
-		message_container.scrollTop = message_container.scrollHeight;   //scroll to height
-		if (text){
-			setTimeout(execute_typing, timeout, text_list[item], msg_elements[item])
-			timeout += text_list[item].length
-		}
-		if (flag){
-			if (flag_list.length = text_list.length){
-				setTimeout(execute_typing, timeout, flag_list[item], msg_elements[item].lastElementChild)
-				timeout += flag_list[item].length
-			} else if (flag_list.length == 1){
-				if (index == msg_elements.length -1){
-					setTimeout(execute_typing, timeout, flag_list[item], msg_elements[item].lastElementChild)
-				}
-			}
-		}
+	message_container.appendChild(bot_chat_container);
+	message_container.scrollTop = message_container.scrollHeight;
+	if (text){
+		j = 0
+		elem = bot_chat_message
+		txt = text
+		typeWriter()
+		setTimeout(addFlag,(text.length+5)*50, bot_chat_message, note, flag)
+		
+	} else if (!text && flag) {
+		addFlag(bot_chat_message, note, flag)
 	}
 	
+	message_container.scrollTop = message_container.scrollHeight;
+}*/
+
+
+export function addBotChat(text=false, flag=false) {
+
+	/*set flow_chat= true if bot is messages are being sent in a flow*/
+	// function to add bot's chat in the message box
+	
+	let text_list;
+	if (typeof text === 'string'){
+		text_list = [text]
+	} else if (text instanceof Array){
+		text_list = text
+	}
+	
+	let flag_list;
+	if (typeof flag === 'string'){
+		flag_list = [flag]
+	} else if (flag instanceof Array){
+		flag_list = flag
+		text = false
+	}
+	
+	
+	
+	// bot chat container
+	function botChatContainer(){
+		let bot_chat_container = document.createElement('div')
+		bot_chat_container.classList.add('bot_chat_container', 'flex', 'justify-start')
+		return bot_chat_container
+	}
+
+	// bot chat message
+	function botChatMessage(){
+		const bot_chat_message = document.createElement('div')
+		bot_chat_message.classList.add('bot_chat_message','text-base')
+		return bot_chat_message
+	}
+	
+	function Note(){
+		let note = document.createElement('div')
+		note.classList.add('bot_chat_message_note')
+		return note
+	}
+	
+	// message side triangle
+	const left_side = document.createElement('div')
+	left_side.classList.add('bot_chat_message_indicator')
+
+	const bot_avatar = document.createElement('img')
+	bot_avatar.classList.add('bot_avatar', 'object-cover', 'rounded-full')
+	bot_avatar.src = "https://chatcv.net/wp-content/themes/twentytwentytwo/assets/images/chatbot.svg";
+    	bot_avatar.alt = "bot avatar";
+	
+
+	let bot_msgs = [];
+    	if (text) {
+    		for (let ind in text_list){
+    			var bot_chat_message = botChatMessage()
+    			if (ind>0){
+    				bot_chat_message.classList.add('bot_chat_message','text-base','bot_chat_message_followup')
+    			}
+    			bot_chat_message.textContent = text_list[ind];
+    			
+    			if (ind==0){
+    				bot_chat_message.appendChild(left_side)
+    			}
+    			bot_msgs.push(bot_chat_message)
+    		}
+    	}
+    	
+    	
+    	
+    	
+	
+	// a flag message below original message to show limits or additional note related to the text
+	if (flag && !text) {
+		for (let ind in flag_list){
+    			var bot_chat_message = botChatMessage()
+    			if (ind>0){
+    				bot_chat_message.classList.add('bot_chat_message','text-base','bot_chat_message_followup')
+    			}
+    			if (ind==0){
+    				bot_chat_message.appendChild(left_side)
+    			}
+    			var note = Note()
+    			note.textContent = flag_list[ind];
+    			bot_chat_message.appendChild(note)
+    			bot_msgs.push(bot_chat_message)
+    		}
+    	} else if (flag && text){
+    		var note = Note()
+    		note.textContent = flag_list[0]
+		bot_msgs[bot_msgs.length - 1].appendChild(note)
+	}
+	
+	// finally add this chat to the message container
+	const message_container = document.querySelector(".chatbot-message-container");
+
+	for (let ind in bot_msgs){
+		// add user chat to bot chat container
+		var bot_chat_container = botChatContainer()
+		if (ind==0){
+			bot_chat_container.appendChild(bot_avatar)
+		}
+		
+		bot_chat_container.appendChild(bot_msgs[ind])
+		message_container.appendChild(bot_chat_container);
+	}
+	
+	
+	message_container.scrollTop = message_container.scrollHeight;
 }
 
 
@@ -1236,13 +1247,14 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 		const option = document.createElement('div');
 		option.classList.add("options-container-item", 'text-base', 'rounded-md');
 		option.textContent = optionsArray[i]
+		option.style.textAlign = 'center';
 		option.onclick = () => {
 			if (fillData.includes(option.textContent)) {
 				fillData.splice(fillData.indexOf(option.textContent),1)
 				option.style.backgroundColor= "#84a9af";
 				option.style.color= "#000";
 				
-			} else if (option.textContent=="Sair" || option.textContent=="Reiniciar" || option.textContent=="Fechar janela") {
+			} else if (option.textContent=="Sair" || option.textContent=="Reiniciar") {
 				Ask.edit = false;
 				name = "";
 				address = "";
@@ -1282,16 +1294,19 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 					Ask.asked = "Vamos iniciar informando seu Nome Completo?";
 					addBotChat(Ask.asked);
 					createInput();
-				} else if (option.textContent=="Fechar janela") {
+				}/* else if (option.textContent=="Fechar janela") {
 						window.open('','_parent','');
 						window.close();
-				}
+				}*/
 				
+			}  else if (option.textContent=="Fechar janela") {
+					window.open('','_parent','');
+					window.close();
 			} else if (option.textContent=="Continuar") {
 				Ask.edit = false;
 				if (name=="" && email=="") {
-					addBotChat(["Desde que você selecionou 'Reiniciar', seus dados devem ser reinseridos."
-							,Ask.asked, "Obrigado!"])
+					addBotChat(["Desde que você selecionou 'Reiniciar', seus dados devem ser reinseridos.",
+							Ask.asked, "Obrigado!"])
 				} else {
 					window.open("https://mpago.la/1g1HCdD", "_blank");
 				}
@@ -1299,10 +1314,9 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 			} else if (option.textContent=="Revisar") {
 				addReviewSection()
 				Hide()
-				addBotChat(false, ["Continuar - vai levá-lo ao próximo passo.",
-							, "Sair - todos os seus dados serão perdidos.",
-							, "Reiniciar - começa uma nova conversa.",
-							, ])
+				addBotChat(false, ["Continuar - vai levá-lo ao próximo passo.", 
+							"Sair - todos os seus dados serão perdidos.",
+							"Reiniciar - começa uma nova conversa."])
 				optionsContainer([["Continuar", "Reiniciar", "Sair"], false], [], "auto auto auto")
 				
 			} else if (option.textContent=="Baixar") {
@@ -1408,10 +1422,9 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 					if (!Ask.edit) {
 						// start SECTION 6, ask for year of degree completion
 						Ask.asked = 'Qual foi o ano de conclusão?'
-						addBotChat(["Vamos agora preencher seu HISTÓRICO ACADÊMICO/EDUCACIONAL.",
-								, Ask.asked
-							   ]
-							," Obrigatório em todos currículos. Recomenda-se sempre iniciar pela mais alta formação, adicionando as outras de forma decrescente.");
+						addBotChat("Vamos agora preencher seu HISTÓRICO ACADÊMICO/EDUCACIONAL.");
+						addBotChat(Ask.asked,
+							" Obrigatório em todos currículos. Recomenda-se sempre iniciar pela mais alta formação, adicionando as outras de forma decrescente.");
 						createInput('month',false,false)
 					}
 					
@@ -1492,13 +1505,14 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 				}
 				
 				if(Ask.edit) {
-					removeInput()
-					addBotChat(['Suas informações foram atualizadas.',
-							"Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo."]);
-					setTimeout(addBotChat, 12000, false,["Continuar - vai levá-lo ao próximo passo.",
-									"Sair - todos os seus dados serão perdidos.",
-									"Reiniciar - começa uma nova conversa."]);
-				}
+					addBotChat('Suas informações foram atualizadas.');
+					addBotChat(false, ["Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo.",
+					"Continuar - vai levá-lo ao próximo passo.",
+					"Sair - todos os seus dados serão perdidos.",
+					"Reiniciar - começa uma nova conversa."]);
+						
+					optionsContainer([["Continuar", "Reiniciar", "Sair"], false], [], "auto auto auto")
+				} 
 //["concuído", "concluído", "em curso"]
 			} else if (option.textContent=="concluído" || option.textContent=="concluído" || option.textContent=="em curso" ) {
 				edu_temp.push(option.textContent)
@@ -1507,7 +1521,7 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 				Ask.asked = 'Em qual cidade?'
 				addBotChat(Ask.asked)
 				
-			} else if (option.textContent=="Via e-mail" || option.textContent=='Tente novamente') {
+			} else if (option.textContent=="Enviar" || option.textContent=='Tente novamente') {
 				let email_data = {
 					'email':localStorage.getItem('email'),
 					'content':localStorage.getItem('email_content')
@@ -1575,14 +1589,14 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 			}
 			
 			if (Ask.edit) {
-				addBotChat(['Suas informações foram atualizadas.',
-							"Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo."]);
-				setTimeout(addBotChat, 12000, false,["Continuar - vai levá-lo ao próximo passo.",
-									"Sair - todos os seus dados serão perdidos.",
-									"Reiniciar - começa uma nova conversa."]);
-					
-				optionsContainer([["Continuar", "Reiniciar", "Sair"], false], [], "auto auto auto")
-				}
+					addBotChat('Suas informações foram atualizadas.');
+					addBotChat(false, ["Clique no botão de seta de revisão para revisar seu conteúdo. Ou você pode selecionar qualquer uma das opções abaixo.",
+					"Continuar - vai levá-lo ao próximo passo.",
+					"Sair - todos os seus dados serão perdidos.",
+					"Reiniciar - começa uma nova conversa."]);
+						
+					optionsContainer([["Continuar", "Reiniciar", "Sair"], false], [], "auto auto auto")
+				} 
 		}
 		options_container.appendChild(done_btn_container);
 	}
@@ -1590,8 +1604,11 @@ export function optionsContainer(optionsArray, fillData, cols, about=false, what
 	
 	const message_container = document.querySelector(".chatbot-message-container");
 	message_container.appendChild(options_container);
-	document.querySelectorAll(".bot_chat_message")[document.querySelectorAll(".bot_chat_message").length-1].scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
-	
+	if (done){
+		document.querySelectorAll(".bot_chat_message")[document.querySelectorAll(".bot_chat_message").length-1].scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
+	} else {
+		document.querySelectorAll(".options-container")[document.querySelectorAll(".options-container").length-1].scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
+	}
 	
 	return options_container
 }
@@ -1616,10 +1633,11 @@ export function viewTemplates(){
 		template0.style.border = '1px solid blue';
 		localStorage.setItem('template', 1)
 		cvs = document.getElementsByClassName('cv-template')
-		cvs[1].remove()
-		cvs[1].remove()
-		addBotChat("Como gostaria de receber o currículo?");
-		optionsContainer([["Baixar", "Via e-mail"], false], [], "auto auto auto")
+		//cvs[1].remove()
+		//cvs[1].remove()
+		Ask.email_content = false;
+		addBotChat("Para receber clique abaixo.");
+		optionsContainer([["Enviar"], false], [], "auto auto auto")
 		
 		Ask.email_content = createTemplate(localStorage.getItem('template'))
 		localStorage.setItem('email_content', Ask.email_content)
@@ -1634,10 +1652,11 @@ export function viewTemplates(){
 		template1.style.border = '1px solid blue';
 		localStorage.setItem('template', 2)
 		cvs = document.getElementsByClassName('cv-template')
-		cvs[0].remove()
-		cvs[1].remove()
-		addBotChat("Como gostaria de receber o currículo?");
-		optionsContainer([["Baixar", "Via e-mail"], false], [], "auto auto auto")
+		//cvs[0].remove()
+		//cvs[1].remove()
+		Ask.email_content = false;
+		addBotChat("Para receber clique abaixo.");
+		optionsContainer([["Enviar"], false], [], "auto auto auto")
 		
 		Ask.email_content = createTemplate(localStorage.getItem('template'))
 		localStorage.setItem('email_content', Ask.email_content)
@@ -1652,10 +1671,11 @@ export function viewTemplates(){
 		template2.style.border = '1px solid blue';
 		localStorage.setItem('template', 3)
 		cvs = document.getElementsByClassName('cv-template')
-		cvs[0].remove()
-		cvs[0].remove()
-		addBotChat("Como gostaria de receber o currículo?");
-		optionsContainer([["Baixar", "Via e-mail"], false], [], "auto auto auto")
+		//cvs[0].remove()
+		//cvs[0].remove()
+		Ask.email_content = false;
+		addBotChat("Para receber clique abaixo.");
+		optionsContainer([["Enviar"], false], [], "auto auto auto")
 		
 		Ask.email_content = createTemplate(localStorage.getItem('template'))
 		localStorage.setItem('email_content', Ask.email_content)
